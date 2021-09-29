@@ -129,16 +129,19 @@ class eventlist implements templatable, renderable {
             // Add an 'later' link.
             $next = $this->page + 1;
         }
-
-        $paginationobj = new pagination($prev, $next);
-        $pagination = $paginationobj->export_for_template($this->output);
+        if ( $prev||$next ) {
+            $paginationobj = new pagination($prev, $next);
+            $pagination = $paginationobj->export_for_template($this->output);
+        } else {
+            $pagination = false;
+        }
         return [
             'courseid' => $this->courseid,
             'events' => $events,
             'pagination' => $pagination,
             'more' => $more,
             'blockview' => $this->blockview
-        ];
+            ];
     }
 
     /**
@@ -265,7 +268,7 @@ class eventlist implements templatable, renderable {
         $lastdate = 0,
         $limitfrom = 0,
         $limitnum = 5) {
-
+        global $PAGE;
         $output = [];
         $more = false;
 

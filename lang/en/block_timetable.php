@@ -40,3 +40,6 @@ $string['view'] = 'Select view';
 $string['type'] = 'Default view';
 $string['previous'] = 'Previous event';
 $string['next'] = 'Next event';
+$string['second'] = 'Second';
+$string['time'] = 'Time';
+$string['courseevent'] = 'Course Event';
