@@ -13,16 +13,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-/**
- * Timetable
- *
- * Footer renderable.
- *
- * @package    block_timetable
- * @copyright  2019 bdecent gmbh <https://bdecent.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
- *
- */
 
 namespace block_timetable\output;
 
@@ -32,7 +22,16 @@ use templatable;
 use stdClass;
 
 defined('MOODLE_INTERNAL') || die();
-
+/**
+ * Timetable
+ *
+ * Footer renderable.
+ *
+ * @package    block_timetable
+ * @copyright  2021 bdecent gmbh <https://bdecent.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
+ *
+ */
 class footer implements templatable, renderable {
     /**
      * @var int The course id.
@@ -42,7 +41,7 @@ class footer implements templatable, renderable {
     /**
      * Constructor.
      *
-     * @param string $tab The tab to display.
+     * @param int $courseid
      */
     public function __construct($courseid) {
         $this->courseid = $courseid;

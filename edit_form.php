@@ -14,18 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Form for editing HTML block instances.
- *
- * @package    block_timetable
- * @copyright  2019 bdecent gmbh <https://bdecent.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Form for editing Timeline block instances.
+ *
+ * @package    block_timetable
+ * @copyright  2021 bdecent gmbh <https://bdecent.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class block_timetable_edit_form extends block_edit_form {
-
+     /**
+      * Function that create a specific defination of form
+      * readable Object of mform
+      *
+      * @param object $mform
+      * @return object $mform
+      */
     protected function specific_definition($mform) {
         $mform->addElement(
             'header',
@@ -43,24 +49,12 @@ class block_timetable_edit_form extends block_edit_form {
         );
         $mform->addElement('select', 'config_timetable', get_string('type', 'block_timetable'), $options);
         $mform->addElement('header', null, 'Available View');
-        $mform->addElement('checkbox', 'config_checkboxtoday', get_string('today', 'block_timetable'));
-        if (isset($this->block->config->checkboxtoday)) {
-            $mform->setDefault('checkboxtoday', $this->block->config->checkboxtoday);
-        } else {
-            $mform->setDefault('checkboxtoday', '1');
-        }
-        $mform->addElement('checkbox', 'config_checkboxthisweek', get_string('thisweek', 'block_timetable'));
-        if (isset($this->block->config->checkboxthisweek)) {
-            $mform->setDefault('checkboxthisweek', $this->block->config->checkboxthisweek);
-        } else {
-            $mform->setDefault('checkboxthisweek', '1');
-        }
-        $mform->addElement('checkbox', 'config_checkboxnextxday', get_string('nextxday', 'block_timetable'));
-        if (isset($this->block->config->checkboxnextxday)) {
-            $mform->setDefault('checkboxnextxday', $this->block->config->checkboxnextxday);
-        } else {
-            $mform->setDefault('checkboxnextxday', '1');
-        }
+        $mform->addElement('selectyesno', 'config_checkboxtoday', get_string('today', 'block_timetable'));
+        $mform->setDefault('config_checkboxtoday', !empty($config->checkboxtoday) ? 1 : 0);
+        $mform->addElement('selectyesno', 'config_checkboxthisweek', get_string('thisweek', 'block_timetable'));
+        $mform->setDefault('config_checkboxthisweek', !empty($config->checkboxthisweek) ? 1 : 0);
+        $mform->addElement('selectyesno', 'config_checkboxnextxday', get_string('nextxday', 'block_timetable'));
+        $mform->setDefault('config_checkboxtoday', !empty($config->checkboxtoday) ? 1 : 0);
         $mform->addElement('text', 'config_limit', get_string('limit', 'block_timetable'), 'maxlength="100" size="10"');
         $mform->setType('config_limit', PARAM_INT);
         if (isset($this->block->config->limit)) {

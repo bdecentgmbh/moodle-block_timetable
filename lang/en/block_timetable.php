@@ -18,7 +18,7 @@
  * Timetable language settings
  *
  * @package    block_timetable
- * @copyright  2019 bdecent gmbh <https://bdecent.de>
+ * @copyright  2021 bdecent gmbh <https://bdecent.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,7 +26,7 @@ $string['adminview'] = 'Admin view';
 $string['timetable:addinstance'] = 'Add a new timetable block';
 $string['timetable:myaddinstance'] = 'Add a new timetable block to Dashboard';
 $string['gotocalendar'] = 'Go to calendar...';
-$string['nextxday'] = 'Next X Day';
+$string['nextxday'] = 'Upcoming';
 $string['owncourses'] = 'Admin user sees own courses';
 $string['pluginname'] = 'Timetable';
 $string['privacy:metadata'] = 'The Timetable block only displays existing timetable data.';
@@ -43,3 +43,4 @@ $string['next'] = 'Next event';
 $string['second'] = 'Second';
 $string['time'] = 'Time';
 $string['courseevent'] = 'Course Event';
+$string['event'] = 'Event';

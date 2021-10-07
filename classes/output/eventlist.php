@@ -13,17 +13,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-/**
- * Timetable
- *
- * Footer renderable.
- *
- * @package    block_timetable
- * @copyright  2019 bdecent gmbh <https://bdecent.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
- *
- */
-
 
 namespace block_timetable\output;
 
@@ -33,7 +22,16 @@ use templatable;
 use html_writer;
 
 defined('MOODLE_INTERNAL') || die();
-
+/**
+ * Timetable
+ *
+ * Footer renderable.
+ *
+ * @package    block_timetable
+ * @copyright  2021 bdecent gmbh <https://bdecent.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
+ *
+ */
 class eventlist implements templatable, renderable {
     /**
      * @var int The number of days to look ahead.
@@ -80,6 +78,7 @@ class eventlist implements templatable, renderable {
      * @param int $limitfrom
      * @param int $limitnum
      * @param int $page
+     * @param object $blockview
      */
     public function __construct(
         $lookahead,
@@ -148,8 +147,9 @@ class eventlist implements templatable, renderable {
      * Retrieves upcoming events.
      *
      * @param \calendar_information $calendar
-     * @param int $lastid the id of the last event loaded
+     * @param int $lookahead the day of the last event loaded
      * @param int $lastdate the date of the last event loaded
+     * @param int $lastid the id of the last event loaded
      * @param int $limitnum maximum number of events
      * @return stdClass
      */
@@ -300,11 +300,18 @@ class eventlist implements templatable, renderable {
                         $event->description = get_string('event', 'block_timetable', $a);
                 }
                 $event->coursename = null;
-                if ( $event->course->fullname ) {
+                if ( $event->eventtype == "category" ) {
+                    $event->coursename = $event->category->name;
+                } else if ( $event->eventtype == "user" ) {
+                    $event->coursename = $event->normalisedeventtypetext;
+                } else if ( $event->eventtype == "course" ) {
                     $event->coursename = $event->course->fullname;
-                    $event->time = userdate($event->mindaytimestamp, '%I:%M %p')." >> ".userdate($event->timestart, '%I:%M %p');
+                } else if ( $event->eventtype == "site" ) {
+                    $event->coursename = $event->normalisedeventtypetext;
+                } else if ( $event->eventtype == "group" ) {
+                    $event->coursename = $event->groupname;
                 } else {
-                    $event->time = userdate($event->timestart, '%I:%M %p');
+                    $event->coursename = $event->normalisedeventtypetext;
                 }
                 $event->eventpast = "";
                 if ( time() >= $event->timestart ) {

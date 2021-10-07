@@ -15,25 +15,60 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editing HTML block instances.
+ * Timetable  block instances.
  *
  * @package    block_timetable
- * @copyright  2019 bdecent gmbh <https://bdecent.de>
+ * @copyright  2021 bdecent gmbh <https://bdecent.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
+/**
+ * block_timetable  block instances.
+ *
+ * @package    block_timetable
+ * @copyright  2021 bdecent gmbh <https://bdecent.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class block_timetable extends block_base {
+    /**
+     * Return the initiation content for the block timetable.
+     *
+     * @return string HTML string
+     */
     public function init() {
         $this->title = get_string('pluginname', 'block_timetable');
     }
-
+    /**
+     * Return the configuration for the block timetable.
+     *
+     * @return boolean
+     */
     public function has_config() {
         return true;
     }
-
+     /**
+      * Return the configuration for the block timetable.
+      *
+      * @return boolean
+      */
+    public function instance_allow_multiple() {
+        return true;
+    }
+     /**
+      * Return the applicable format.
+      *
+      * @return array
+      */
     public function applicable_formats() {
         return array('all' => true);
     }
+     /**
+      * Return the applicable format.
+      *
+      * @return object content
+      */
     public function get_content() {
         global $CFG, $OUTPUT, $COURSE;
 
@@ -49,13 +84,19 @@ class block_timetable extends block_base {
         if (empty($this->instance)) {
             return $this->content;
         } else {
-            $ulayout = optional_param('ulayout', $this->config->timetable, PARAM_RAW);
+            if (!isset($this->config)) {
+                $this->config = new stdClass();
+            }
+            if (empty($this->config->view)) {
+                $this->config->view = 'today';
+            }
+            $ulayout = optional_param('ulayout', @$this->config->timetable, PARAM_RAW);
             if ($ulayout == "nextxday") {
                   $maxevents = get_user_preferences('calendar_maxevents', CALENDAR_DEFAULT_UPCOMING_LOOKAHEAD);
                   $lookahead = get_user_preferences('calendar_lookahead', CALENDAR_DEFAULT_UPCOMING_LOOKAHEAD);
             } else {
-                if (empty($this->config->limit)) {
-                      $this->config->limit = 80;
+                if (empty(@$this->config->limit)) {
+                      $this->config->limit = 5;
                 }
                 $limitnum = $this->config->limit;
                 $lookahead = true;
@@ -63,6 +104,7 @@ class block_timetable extends block_base {
             if ($ulayout == "thisweek") {
                 $calendartype = \core_calendar\type_factory::get_calendar_instance();
                 $calendarweek = $calendartype->get_weekdays();
+                $startwday = get_user_preferences('calendar_startwday', 1);
             }
             $page = optional_param('block_timetable_page', 1, PARAM_RAW);
             $limitfrom = $page > 1 ? ($page * $limitnum) - $limitnum : 0;
@@ -83,11 +125,12 @@ class block_timetable extends block_base {
                 $page,
                 $blockview
             );
-            $checkboxtoday = $this->config->checkboxtoday;
-            $checkboxthisweek = $this->config->checkboxthisweek;
-            $checkboxnextxday = $this->config->checkboxnextxday;
+            $checkboxtoday = @$this->config->checkboxtoday;
+            $checkboxthisweek = @$this->config->checkboxthisweek;
+            $checkboxnextxday = @$this->config->checkboxnextxday;
             $renderer = $this->page->get_renderer('block_timetable');
             $this->content->text = "";
+            $qblock = false;
             if ( $checkboxtoday || $checkboxthisweek || $checkboxnextxday ) {
                 $texttimetable = get_string('today', 'block_timetable');
                 if ( $ulayout == "nextxday" ) {
@@ -95,33 +138,40 @@ class block_timetable extends block_base {
                 } else if ( $ulayout == "thisweek" ) {
                     $texttimetable = get_string('thisweek', 'block_timetable');
                 }
-                $this->content->text .= '<div class="col-sm d-flex justify-content-end">
-                <div data-region="view-selector" class="btn-group">';
-                $this->content->text .= '<button type="button" class="btn btn-outline-secondary dropdown-toggle icon-no-margin"';
-                $this->content->text .= ' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ';
-                $this->content->text .= ' aria-label="Sort timeline items" aria-controls="menusortby"> ';
-                $this->content->text .= $texttimetable;
-                $this->content->text .= '</button><div id="menusortby" role="menu" class="dropdown-menu dropdown-menu-right';
-                $this->content->text .= 'list-group hidden" data-show-active-item="" data-skip-active-class="true">';
-                if ($checkboxtoday) {
-                    $url = new moodle_url($this->page->url , ['ulayout' => 'today' ]);
-                    $this->content->text .= ' <a class="dropdown-item" href="'. $url.'" >
-                           '.get_string('today', 'block_timetable').'
-                        </a>';
-                }
-                if ($checkboxthisweek) {
-                    $url = new moodle_url($this->page->url, ['ulayout' => 'thisweek' ]);
-                    $this->content->text .= ' <a class="dropdown-item" href="'. $url.'" >
+                if ( $checkboxtoday == true&&$checkboxthisweek == false&&$checkboxnextxday == false ) {
+                    $qblock = true;
+                } else if ( $checkboxtoday == false&&$checkboxthisweek == true&&$checkboxnextxday == false ) {
+                    $qblock = true;
+                } else if ($checkboxtoday == false&&$checkboxthisweek == false&&$checkboxnextxday == true) {
+                    $qblock = true;
+                } else {
+                    $this->content->text .= '<div class="col-sm d-flex justify-content-end">';
+                    $this->content->text .= '<div data-region="view-selector" class="btn-group">';
+                    $this->content->text .= '<button type="button" class="btn btn-outline-secondary dropdown-toggle ';
+                    $this->content->text .= 'icon-no-margin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ';
+                    $this->content->text .= ' aria-label="Sort timeline items" aria-controls="menusortby"> ';
+                    $this->content->text .= $texttimetable;
+                    $this->content->text .= '</button><div id="menusortby" role="menu" class="dropdown-menu dropdown-menu-right';
+                    $this->content->text .= 'list-group hidden" data-show-active-item="" data-skip-active-class="true">';
+                    if ( $checkboxtoday ) {
+                        $url = new moodle_url($this->page->url , ['ulayout' => 'today' ]);
+                        $this->content->text .= ' <a class="dropdown-item" href="'. $url.'" >';
+                        $this->content->text .= get_string('today', 'block_timetable').'</a>';
+                    }
+                    if ( $checkboxthisweek ) {
+                        $url = new moodle_url($this->page->url, ['ulayout' => 'thisweek' ]);
+                        $this->content->text .= ' <a class="dropdown-item" href="'. $url.'" >
                             '.get_string('thisweek', 'block_timetable').'
                         </a>';
-                }
-                if ($checkboxnextxday) {
-                    $url = new moodle_url($this->page->url, ['ulayout' => 'nextxday' ]);
-                    $this->content->text .= ' <a class="dropdown-item" href="'. $url.'" >
+                    }
+                    if ( $checkboxnextxday ) {
+                        $url = new moodle_url($this->page->url, ['ulayout' => 'nextxday' ]);
+                        $this->content->text .= ' <a class="dropdown-item" href="'. $url.'" >
                         '.get_string('nextxday', 'block_timetable').'
                         </a>';
+                    }
+                    $this->content->text .= '</div></div></div>';
                 }
-                $this->content->text .= '</div></div></div>';
             }
             if ($ulayout == "thisweek") {
                 $this->content->text .= "<div class='timetable_calendar'>";
@@ -133,6 +183,9 @@ class block_timetable extends block_base {
                     $class = "";
                     if ($l < $weeknumber) {
                         $class = " inactive";
+                    }
+                    if ( $l == $weeknumber ) {
+                        $class = " now";
                     }
                     if (  $weekday == $cal['fullname'] ) {
                         $class = " active";
@@ -151,6 +204,7 @@ class block_timetable extends block_base {
 
         return $this->content;
     }
+
     /**
      * Return the plugin config settings for external functions.
      *

@@ -13,16 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-/**
- * Timetable
- *
- * Timetable renderer.
- *
- * @package    block_timetable
- * @copyright  2019 bdecent gmbh <https://bdecent.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
- *
- */
+
 
 namespace block_timetable\output;
 
@@ -31,7 +22,16 @@ defined('MOODLE_INTERNAL') || die;
 use plugin_renderer_base;
 use renderable;
 use stdClass;
-
+/**
+ * Timetable
+ *
+ * Timetable renderer.
+ *
+ * @package    block_timetable
+ * @copyright  2021 bdecent gmbh <https://bdecent.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
+ *
+ */
 class renderer extends plugin_renderer_base {
 
     /**

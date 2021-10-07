@@ -13,16 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-/**
- * Timetable
- *
- * Main renderable.
- *
- * @package    block_timetable
- * @copyright  2019 bdecent gmbh <https://bdecent.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
- *
- */
+
 
 namespace block_timetable\output;
 
@@ -32,7 +23,16 @@ use templatable;
 use stdClass;
 
 defined('MOODLE_INTERNAL') || die();
-
+/**
+ * Timetable
+ *
+ * Main renderable.
+ *
+ * @package    block_timetable
+ * @copyright  2021 bdecent gmbh <https://bdecent.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
+ *
+ */
 class main implements templatable, renderable {
     /**
      * @var int The number of days to look ahead.
@@ -79,6 +79,7 @@ class main implements templatable, renderable {
      * @param int $limitfrom
      * @param int $limitnum
      * @param int $page
+     * @param int $blockview
      */
     public function __construct(
         $lookahead,

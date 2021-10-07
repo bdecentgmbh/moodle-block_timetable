@@ -80,10 +80,8 @@
 
 .block_timetable .timetable {
     width: 100%;
-    max-height: 400px;
     margin: 0;
     padding: 0;
-    overflow-y: scroll;
 }
 
 .block_timetable ul {
@@ -93,9 +91,9 @@
 }
 
 .block_timetable li {
-  margin: 5px 5px 10px 10px;
-padding: 10px 0px 20px 5px;
-position: relative;
+   margin: 5px 0px 10px;
+    padding: 7px;
+    position: relative;
 }
 .block_timetable .event,
 .block_timetable .meta {
@@ -126,24 +124,30 @@ position: relative;
   text-decoration: none;
       min-width: 150px;
     min-height: 100px;
-    width: 20%;
 }
 .block_timetable ul .item.past
 {
-  opacity: 0.6; 
+  opacity: 0.4; 
 }
 .timetable_day {
   float: left;
-width: 13%;
-margin: 1px;
+width: 12%;
+margin: 0px 3px 0px 3px;
 text-align: center;
 background: #F2F2F2;
 color: #000;
 font-weight:bold;
+border: 1px solid #F2F2F2;
 }
 .timetable_day a
 {
-color: #000;  
+color: #000;
+text-transform: uppercase;
+font-size: 12px;
+}
+.timetable_day.now
+{
+  border:1px solid #000;
 }
 .timetable_day.active
 {

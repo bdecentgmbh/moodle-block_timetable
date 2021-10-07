@@ -18,12 +18,15 @@
  * Version details
  *
  * @package    block_timetable
- * @copyright  2019 bdecent gmbh <https://bdecent.de>
+ * @copyright  2021 bdecent gmbh <https://bdecent.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2020110900;         // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2021051100;         // Requires this Moodle version.
+$plugin->version   = 2021100400;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->requires  = 2020061500;        // Requires this Moodle version.
 $plugin->component = 'block_timetable'; // Full name of the plugin (used for diagnostics).
+$plugin->maturity = MATURITY_ALPHA;   // This is considered as not ready for production sites.
+$plugin->supported = [39, 311];      // This is version of moodle.
+$plugin->release = '0.1';           // This is our first revision for Moodle 2.7.x branch.

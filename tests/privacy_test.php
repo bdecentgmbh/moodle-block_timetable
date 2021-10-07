@@ -18,7 +18,7 @@
  * Unit tests for the block_timetable implementation of the privacy API.
  *
  * @package    block_timetable
- * @copyright  2019 bdecent gmbh <https://bdecent.de>
+ * @copyright  2021 bdecent gmbh <https://bdecent.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,7 +31,7 @@ use \block_timetable\privacy\provider;
  * Unit tests for the block_timetable implementation of the privacy API.
  *
  * @package    block_timetable
- * @copyright  2019 bdecent gmbh <https://bdecent.de>
+ * @copyright  2021 bdecent gmbh <https://bdecent.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class block_timetable_privacy_testcase extends \core_privacy\tests\provider_testcase {
