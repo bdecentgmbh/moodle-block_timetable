@@ -154,7 +154,7 @@ class eventlist implements templatable, renderable {
      * @return stdClass
      */
     public function get_view(\calendar_information $calendar, $lookahead, $lastdate = 0, $lastid = 0, $limitnum = 5) {
-        global $PAGE, $CFG;
+        global $PAGE, $CFG , $USER;
 
         $renderer = $PAGE->get_renderer('core_calendar');
         $type = \core_calendar\type_factory::get_calendar_instance();
@@ -198,13 +198,24 @@ class eventlist implements templatable, renderable {
         },
             [$calendar->users, $calendar->groups, $calendar->courses, $calendar->categories]
         );
-
         // Remove site events from block if this is course.
         if ($calendar->course->id != SITEID) {
+            $groups=groups_get_user_groups($calendar->course->id,$USER->id);
             $courseparam = [];
             $courseparam[1] = $calendar->course->id;
-            $userparam = array();
-            $groupparam = array();
+            $userparam = [];
+            $userparam[1] = $calendar->course->id;
+            $groupparam = [];
+            $groupparam[1] = $group;
+            $m=1;
+            foreach($groups as $cgroup)
+            {
+                foreach($cgroup as $group)
+                {
+                    $groupparam[$m] = $group;
+                    $m++;
+                }
+            }
             $categoryparam = array();
         }
         $events = \core_calendar\local\api::get_events(
@@ -305,6 +316,8 @@ class eventlist implements templatable, renderable {
                 } else if ( $event->eventtype == "user" ) {
                     $event->coursename = $event->normalisedeventtypetext;
                 } else if ( $event->eventtype == "course" ) {
+                    $event->coursename = $event->course->fullname;
+                } else if ( $event->eventtype == "expectcompletionon" ) {
                     $event->coursename = $event->course->fullname;
                 } else if ( $event->eventtype == "site" ) {
                     $event->coursename = $event->normalisedeventtypetext;

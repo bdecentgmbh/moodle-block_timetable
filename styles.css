@@ -120,10 +120,12 @@
 
 .timetable.horizontal .events li
 {
-     display: inline-block;
-  text-decoration: none;
-      min-width: 150px;
-    min-height: 100px;
+      display: inline-block;
+      text-decoration: none;
+      width: 200px;
+      min-height: 150px;
+      word-break: normal;
+white-space: normal;
 }
 .block_timetable ul .item.past
 {

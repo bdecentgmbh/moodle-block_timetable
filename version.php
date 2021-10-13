@@ -29,4 +29,4 @@ $plugin->requires  = 2020061500;        // Requires this Moodle version.
 $plugin->component = 'block_timetable'; // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_ALPHA;   // This is considered as not ready for production sites.
 $plugin->supported = [39, 311];      // This is version of moodle.
-$plugin->release = '0.1';           // This is our first revision for Moodle 2.7.x branch.
+$plugin->release = '0.1';           // This is our first revision for Moodle 3.9.x branch.

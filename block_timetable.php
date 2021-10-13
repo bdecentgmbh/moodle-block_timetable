@@ -95,17 +95,19 @@ class block_timetable extends block_base {
                   $maxevents = get_user_preferences('calendar_maxevents', CALENDAR_DEFAULT_UPCOMING_LOOKAHEAD);
                   $lookahead = get_user_preferences('calendar_lookahead', CALENDAR_DEFAULT_UPCOMING_LOOKAHEAD);
             } else {
-                if (empty(@$this->config->limit)) {
-                      $this->config->limit = 5;
-                }
-                $limitnum = $this->config->limit;
                 $lookahead = true;
             }
             if ($ulayout == "thisweek") {
                 $calendartype = \core_calendar\type_factory::get_calendar_instance();
                 $calendarweek = $calendartype->get_weekdays();
-                $startwday = get_user_preferences('calendar_startwday', 1);
+                $startwday = get_user_preferences('calendar_startwday', CALENDAR_STARTING_WEEKDAY);
             }
+            if (empty(@$this->config->limit)) {
+                $this->config->limit = 5;
+            } else if ($this->config->limit==0) {
+                $this->config->limit = 80;
+            }
+            $limitnum = $this->config->limit;
             $page = optional_param('block_timetable_page', 1, PARAM_RAW);
             $limitfrom = $page > 1 ? ($page * $limitnum) - $limitnum : 0;
             $lastdate = 0;
@@ -175,25 +177,34 @@ class block_timetable extends block_base {
             }
             if ($ulayout == "thisweek") {
                 $this->content->text .= "<div class='timetable_calendar'>";
-                $l = 0;
+                $l = $startwday - 1;
                 $time = optional_param('time', strtotime('today midnight'), PARAM_INT);
-                $weeknumber = date( 'N' );
+                $weeknumber = date( 'N' + $startwday - 1);
+                $todayweek=date( 'N');
                 $weekday = date('l' , $time);
+                $midnight="this";
                 foreach ($calendarweek as $cal) {
+                    if($startwday==7)
+                    {
+                        $startwday=0;
+                        $midnight="next";
+                    }
+                    $cal=$calendarweek[$startwday];
+                    $startwday++ ;
                     $class = "";
-                    if ($l < $weeknumber) {
+                    $l++;
+                    if ($l < $todayweek) {
                         $class = " inactive";
                     }
-                    if ( $l == $weeknumber ) {
+                    if ( $l == $todayweek ) {
                         $class = " now";
                     }
                     if (  $weekday == $cal['fullname'] ) {
                         $class = " active";
                     }
-                    $url = new moodle_url($this->page->url, ['time' => strtotime( $cal['fullname'].' this week midnight')]);
+                    $url = new moodle_url($this->page->url, ['time' => strtotime( $cal['fullname'].' '.$midnight.' week midnight')]);
                     $this->content->text .= "<div class='timetable_day".$class."'><a href='".$url."'>".$cal['shortname'];
                     $this->content->text .= "</a></div>";
-                    $l++;
                 }
                 $this->content->text .= "</div>";
             }

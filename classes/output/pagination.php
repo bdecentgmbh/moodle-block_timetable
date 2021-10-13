@@ -87,7 +87,7 @@ class pagination implements templatable, renderable {
         if ($prev && $next) {
             $pagination->sep = '&nbsp;|&nbsp;';
         } else {
-            $pagination->sep = '&nbsp;|&nbsp;';
+            $pagination->sep = '';
         }
         if ($next) {
             $pagination->next = new stdClass();

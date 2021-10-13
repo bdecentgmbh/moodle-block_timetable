@@ -39,9 +39,10 @@
     <div
         class="event clearfix"
         data-eventtype-{{calendareventtype}}="1"
+        
         data-region="event-item"
     >
-        <div class="notificationtext">
+       <div class="card-text content calendarwrapper"  data-context-id="{{userid}}" data-courseid="{{courseid}}" data-categoryid="{{categoryid}}">
             {{#coursename}}<span class="coursename">{{coursename}}</span><br/>{{/coursename}}
             <a
                 data-type="event"
@@ -69,11 +70,6 @@
            {{prevtext}}
         </a>
     {{/prev}}
-    {{^prev}}
-    
-            <span aria-hidden="true">«</span>
-           {{#str}} previous, block_timetable {{/str}}
-    {{/prev}}
     
     {{{sep}}}
     {{#next}}
@@ -81,10 +77,6 @@
             
            {{nexttext}} <span aria-hidden="true">»</span>
         </a>
-    {{/next}}
-    {{^next}}
-            {{#str}} next, block_timetable {{/str}}
-           <span aria-hidden="true">»</span>
     {{/next}}
 </div>
 {{/pagination}}
