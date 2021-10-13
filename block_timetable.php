@@ -104,7 +104,7 @@ class block_timetable extends block_base {
             }
             if (empty(@$this->config->limit)) {
                 $this->config->limit = 5;
-            } else if ($this->config->limit==0) {
+            } else if ($this->config->limit == 0) {
                 $this->config->limit = 80;
             }
             $limitnum = $this->config->limit;
@@ -180,17 +180,16 @@ class block_timetable extends block_base {
                 $l = $startwday - 1;
                 $time = optional_param('time', strtotime('today midnight'), PARAM_INT);
                 $weeknumber = date( 'N' + $startwday - 1);
-                $todayweek=date( 'N');
+                $todayweek = date( 'N');
                 $weekday = date('l' , $time);
-                $midnight="this";
+                $midnight = "this";
                 foreach ($calendarweek as $cal) {
-                    if($startwday==7)
-                    {
-                        $startwday=0;
-                        $midnight="next";
+                    if ($startwday == 7) {
+                        $startwday = 0;
+                        $midnight = "next";
                     }
-                    $cal=$calendarweek[$startwday];
-                    $startwday++ ;
+                    $cal = $calendarweek[$startwday];
+                    $startwday++;
                     $class = "";
                     $l++;
                     if ($l < $todayweek) {
@@ -202,7 +201,8 @@ class block_timetable extends block_base {
                     if (  $weekday == $cal['fullname'] ) {
                         $class = " active";
                     }
-                    $url = new moodle_url($this->page->url, ['time' => strtotime( $cal['fullname'].' '.$midnight.' week midnight')]);
+                    $time = strtotime( $cal['fullname'].' '.$midnight.' week midnight');
+                    $url = new moodle_url($this->page->url, ['time' => $time ]);
                     $this->content->text .= "<div class='timetable_day".$class."'><a href='".$url."'>".$cal['shortname'];
                     $this->content->text .= "</a></div>";
                 }

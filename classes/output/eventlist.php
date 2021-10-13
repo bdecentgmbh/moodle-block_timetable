@@ -200,18 +200,16 @@ class eventlist implements templatable, renderable {
         );
         // Remove site events from block if this is course.
         if ($calendar->course->id != SITEID) {
-            $groups=groups_get_user_groups($calendar->course->id,$USER->id);
+            $groups = groups_get_user_groups($calendar->course->id, $USER->id);
             $courseparam = [];
             $courseparam[1] = $calendar->course->id;
             $userparam = [];
             $userparam[1] = $calendar->course->id;
             $groupparam = [];
             $groupparam[1] = $group;
-            $m=1;
-            foreach($groups as $cgroup)
-            {
-                foreach($cgroup as $group)
-                {
+            $m = 1;
+            foreach ($groups as $cgroup) {
+                foreach ($cgroup as $group) {
                     $groupparam[$m] = $group;
                     $m++;
                 }
