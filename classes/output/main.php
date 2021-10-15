@@ -83,6 +83,7 @@ class main implements templatable, renderable {
      * @param int $limitnum
      * @param int $page
      * @param int $blockview
+     * @param int $time
      */
     public function __construct(
         $lookahead,
