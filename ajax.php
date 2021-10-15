@@ -36,7 +36,6 @@ $lookahead = required_param('lookahead', PARAM_INT);
 $courseid = required_param('courseid', PARAM_INT);
 $limitnum = required_param('limitnum', PARAM_INT);
 $time = optional_param('time', strtotime('today midnight'), PARAM_INT);
-$instances = $DB->get_records( 'block_instance', array('blockid'=>'simplehtml') );
 $list = '';
 $end = false;
 $renderer = $PAGE->get_renderer('block_timetable');
