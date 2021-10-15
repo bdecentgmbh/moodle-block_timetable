@@ -79,7 +79,7 @@ class eventlist implements templatable, renderable {
      * @var int The current page if JS is disabled.
      */
     public $time;
-   /**
+    /**
      * Constructor.
      *
      * @param int $lookahead
