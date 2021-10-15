@@ -30,35 +30,14 @@
     }
 }}
 
-<div id="timetable-events{{uniqid}}" class="timetable {{blockview}}" data-template="block_timetable/timetable">
+<div id="timetable-events{{uniqid}}" class="timetable {{blockview}}" data-template="block_timetable/event" >
     <div class="col-sm d-flex justify-content-end" id="yui_{{uniqid}}">
   </div>
-    <ul class="events">
-        {{#events}}        
-        <li id="{{id}}_{{timestart}}" class="item calendar_event_{{normalisedeventtype}} {{eventpast}}">
-    <div
-        class="event clearfix"
-        data-eventtype-{{calendareventtype}}="1"
-        
-        data-region="event-item"
-    >
-       <div class="card-text content calendarwrapper"  data-context-id="{{userid}}" data-courseid="{{courseid}}" data-categoryid="{{categoryid}}">
-            {{#coursename}}<span class="coursename">{{coursename}}</span><br/>{{/coursename}}
-            <a
-                data-type="event"
-                data-action="view-event"
-                data-event-id="{{id}}"
-                href="{{viewurl}}"
-                class="timetable-event"
-            >
-                {{{name}}}
-            </a><br/>
-            {{{formattedtime}}}
-        </div>
+    <div class="events card-text content calendarwrapper"  data-context-id="{{defaulteventcontext}}" data-courseid="{{courseid}}" data-categoryid="{{categoryid}}">
+         
+    {{> block_timetable/event}}        
+
     </div>
-    </li>
-        {{/events}}
-    </ul>
 
 </div>
 {{#pagination}}

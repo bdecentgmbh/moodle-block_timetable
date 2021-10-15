@@ -92,15 +92,15 @@ class block_timetable extends block_base {
             }
             $ulayout = optional_param('ulayout', @$this->config->timetable, PARAM_RAW);
             if ($ulayout == "nextxday") {
-                  $maxevents = get_user_preferences('calendar_maxevents', CALENDAR_DEFAULT_UPCOMING_LOOKAHEAD);
-                  $lookahead = get_user_preferences('calendar_lookahead', CALENDAR_DEFAULT_UPCOMING_LOOKAHEAD);
+                  $maxevents = get_user_preferences('calendar_maxevents', 10);
+                  $lookahead = get_user_preferences('calendar_lookahead', 6);
             } else {
                 $lookahead = true;
             }
             if ($ulayout == "thisweek") {
                 $calendartype = \core_calendar\type_factory::get_calendar_instance();
                 $calendarweek = $calendartype->get_weekdays();
-                $startwday = get_user_preferences('calendar_startwday', CALENDAR_STARTING_WEEKDAY);
+                $startwday = get_user_preferences('calendar_startwday', 1);
             }
             if (empty(@$this->config->limit)) {
                 $this->config->limit = 5;
@@ -109,6 +109,7 @@ class block_timetable extends block_base {
             }
             $limitnum = $this->config->limit;
             $page = optional_param('block_timetable_page', 1, PARAM_RAW);
+            $time = optional_param('time', strtotime('today midnight'), PARAM_INT);
             $limitfrom = $page > 1 ? ($page * $limitnum) - $limitnum : 0;
             $lastdate = 0;
             $lastid = 0;
@@ -125,7 +126,8 @@ class block_timetable extends block_base {
                 $limitfrom,
                 $limitnum,
                 $page,
-                $blockview
+                $blockview,
+                $time
             );
             $checkboxtoday = @$this->config->checkboxtoday;
             $checkboxthisweek = @$this->config->checkboxthisweek;

@@ -42,6 +42,14 @@ class eventlist implements templatable, renderable {
      * @var int The course id.
      */
     public $courseid;
+    /**
+     * @var int The context id.
+     */
+    public $defaulteventcontext;
+    /**
+     * @var int The context id.
+     */
+    public $categoryid;
 
     /**
      * @var int The id of the last event.
@@ -67,7 +75,10 @@ class eventlist implements templatable, renderable {
      * @var int The current page if JS is disabled.
      */
     public $page;
-
+    /**
+     * @var int The current page if JS is disabled.
+     */
+    public $time;
     /**
      * Constructor.
      *
@@ -79,6 +90,7 @@ class eventlist implements templatable, renderable {
      * @param int $limitnum
      * @param int $page
      * @param object $blockview
+     * @param object time
      */
     public function __construct(
         $lookahead,
@@ -88,7 +100,8 @@ class eventlist implements templatable, renderable {
         $limitfrom,
         $limitnum,
         $page,
-        $blockview) {
+        $blockview,
+        $time) {
         $this->lookahead = $lookahead;
         $this->courseid = $courseid;
         $this->lastid = $lastid;
@@ -97,6 +110,7 @@ class eventlist implements templatable, renderable {
         $this->limitnum = $limitnum;
         $this->page = $page;
         $this->blockview = $blockview;
+        $this->time = $time;
     }
 
     /**
@@ -107,7 +121,6 @@ class eventlist implements templatable, renderable {
      */
     public function export_for_template(renderer_base $output) {
         $this->output = $output;
-
         list($more, $events) = $this->get_timetabevents(
             $this->lookahead,
             $this->courseid,
@@ -116,7 +129,6 @@ class eventlist implements templatable, renderable {
             $this->limitfrom,
             $this->limitnum
             );
-
         $prev = false;
         $next = false;
         if ($this->page > 1) {
@@ -136,6 +148,8 @@ class eventlist implements templatable, renderable {
         }
         return [
             'courseid' => $this->courseid,
+            'defaulteventcontext' => $this->defaulteventcontext,
+            'categoryid' => $this->categoryid,
             'events' => $events,
             'pagination' => $pagination,
             'more' => $more,
@@ -286,7 +300,7 @@ class eventlist implements templatable, renderable {
         // page through.
         $eventnum = $limitfrom + $limitnum + 1;
         $categoryid = ($PAGE->context->contextlevel === CONTEXT_COURSECAT) ? $PAGE->category->id : null;
-        $time = optional_param('time', strtotime('today midnight'), PARAM_INT);
+        $time = $this->time;
         $calendar = \calendar_information::create($time, $courseid, $categoryid);
         $events = $this->get_view($calendar, $lookahead, $lastdate, $lastid, $limitnum);
         $events = $events->events;
@@ -298,7 +312,16 @@ class eventlist implements templatable, renderable {
 
             $events = array_slice($events, $limitfrom, $limitnum);
             foreach ($events as $key => $event) {
-                $event->timeuntil = $this->human_timing($event->timestart);
+                if ( $event->categoryid == null ) {
+                    $this->categoryid = 0;
+                } else {
+                    $this->categoryid = $event->categoryid;
+                }
+                if ( $event->userid == null ) {
+                    $this->defaulteventcontext = 0;
+                } else {
+                    $this->defaulteventcontext = $event->userid;
+                }
                 $courseid = isset($event->course->id) ? $event->course->id : 0;
                 $a = new \stdClass();
                 $a->name = $event->name;
@@ -333,41 +356,6 @@ class eventlist implements templatable, renderable {
         }
 
         return [$more, $output];
-    }
-
-    /**
-     * Function that compares a time stamp to the current time and returns a human
-     * readable string saying how long until time stamp
-     *
-     * @param int $time unix time stamp
-     * @return string representing time since message created
-     */
-    public function human_timing ($time) {
-        // To get the time until that moment.
-        $time = $time - time();
-        $timeuntil = get_string('today');
-
-        $tokens = array (
-            31536000 => get_string('year'),
-            2592000 => get_string('month'),
-            604800 => get_string('week'),
-            86400 => get_string('day'),
-            3600 => get_string('hour'),
-            60 => get_string('minute'),
-            1 => get_string('second', 'block_timetable')
-        );
-
-        foreach ($tokens as $unit => $text) {
-            if ($time < $unit) {
-                continue;
-            }
-
-            $numberofunits = floor($time / $unit);
-            $units = $numberofunits . ' ' . $text . (($numberofunits > 1) ? 's' : '');
-            return get_string('time', 'block_timetable', $units);
-        }
-
-        return $timeuntil;
     }
 
     /**

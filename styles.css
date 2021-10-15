@@ -1,4 +1,4 @@
-.timetable ul
+.timetable .events
 {
     list-style: none;
 }
@@ -84,13 +84,13 @@
     padding: 0;
 }
 
-.block_timetable ul {
+.block_timetable .events {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.block_timetable li {
+.block_timetable .event-item {
    margin: 5px 0px 10px;
     padding: 7px;
     position: relative;
@@ -118,7 +118,7 @@
 }
 
 
-.timetable.horizontal .events li
+.timetable.horizontal .events .event-item
 {
       display: inline-block;
       text-decoration: none;
@@ -127,7 +127,7 @@
       word-break: normal;
 white-space: normal;
 }
-.block_timetable ul .item.past
+.block_timetable .events .item.past
 {
   opacity: 0.4; 
 }

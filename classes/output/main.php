@@ -68,7 +68,10 @@ class main implements templatable, renderable {
      * @var int The current page if JS is disabled.
      */
     public $page;
-
+    /**
+     * @var int The current page if JS is disabled.
+     */
+    public $time;
     /**
      * Constructor.
      *
@@ -89,7 +92,8 @@ class main implements templatable, renderable {
         $limitfrom,
         $limitnum,
         $page,
-        $blockview) {
+        $blockview,
+        $time) {
         $this->lookahead = $lookahead;
         $this->courseid = $courseid;
         $this->lastid = $lastid;
@@ -98,6 +102,7 @@ class main implements templatable, renderable {
         $this->limitnum = $limitnum;
         $this->page = $page;
         $this->blockview = $blockview;
+        $this->time = $time;
     }
 
     /**
@@ -117,7 +122,8 @@ class main implements templatable, renderable {
             $this->limitfrom,
             $this->limitnum,
             $this->page,
-            $this->blockview
+            $this->blockview,
+            $this->time
         );
         $templatecontext = $events->export_for_template($output);
         return $templatecontext;

@@ -44,47 +44,4 @@ class provider implements \core_privacy\local\metadata\null_provider, \core_priv
     public static function get_reason() : string {
         return 'privacy:metadata';
     }
-     /**
-     * Returns meta-data information about the timetable block.
-     *
-     * @param  \core_privacy\local\metadata\collection $collection A collection of meta-data.
-     * @return \core_privacy\local\metadata\collection Return the collection of meta-data.
-     */
-    public static function get_metadata(collection $collection) : collection {
-        $collection->add_user_preference('block_timetable_user_sort_preference', 'privacy:metadata:timetablesortpreference');
-        $collection->add_user_preference('block_timetable_user_filter_preference', 'privacy:metadata:timetablefilterpreference');
-        $collection->add_user_preference('block_timetable_user_limit_preference', 'privacy:metadata:timetablelimitpreference');
-        return $collection;
-    }
-
-    /**
-     * Export all user preferences for the myoverview block
-     *
-     * @param int $userid The userid of the user whose data is to be exported.
-     */
-    public static function export_user_preferences(int $userid) {
-        $preference = get_user_preferences('block_timetable_user_sort_preference', null, $userid);
-        if (isset($preference)) {
-            \core_privacy\local\request\writer::export_user_preference('block_timetable', 'block_timetable_user_sort_preference',
-                    get_string($preference, 'block_timetable'),
-                    get_string('privacy:metadata:timetablesortpreference', 'block_timetable')
-            );
-        }
-
-        $preference = get_user_preferences('block_timetable_user_filter_preference', null, $userid);
-        if (isset($preference)) {
-            \core_privacy\local\request\writer::export_user_preference('block_timetable', 'block_timetable_user_filter_preference',
-                    get_string($preference, 'block_timetable'),
-                    get_string('privacy:metadata:timetablefilterpreference', 'block_timetable')
-            );
-        }
-
-        $preference = get_user_preferences('block_timetable_user_limit_preference', null, $userid);
-        if (isset($preference)) {
-            \core_privacy\local\request\writer::export_user_preference('block_timetable', 'block_timetable_user_limit_preference',
-                    $preference,
-                    get_string('privacy:metadata:timetablelimitpreference', 'block_timetable')
-            );
-        }
-    }
 }
