@@ -41,18 +41,14 @@ Feature: Timetable block used in a course
         | assignsubmission_file_enabled | 0 |
     And I log out
 
-  Scenario: Upcoming events shows current course events
+  Scenario: Timetable shows current course events
     When I log in as "student1"
     And I am on "Course 1" course homepage
-    # Confirm the feed is showing two notifications.
-    Then I should see "1" events in feed
     # Confirm the submission event is visible.
     And I should see "Test assignment name 1 is due in C1" in the "Timetable" "block"
     And I should not see "Test assignment name 2 is due in C2" in the "Timetable" "block"
     And I should not see "Course Event" in the "Timetable" "block"
     And I am on "Course 2" course homepage
-    # Confirm the feed is showing one notification.
-    Then I should see "1" events in feed
     # Confirm the submission event is visible.
     And I should not see "Test assignment name 1 is due in C1" in the "Timetable" "block"
     And I should see "Test assignment name 2 is due in C2" in the "Timetable" "block"
