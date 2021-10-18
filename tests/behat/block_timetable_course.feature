@@ -45,12 +45,12 @@ Feature: Timetable block used in a course
     When I log in as "student1"
     And I am on "Course 1" course homepage
     # Confirm the submission event is visible.
-    And I should see "Test assignment name 1 is due in C1" in the "Timetable" "block"
-    And I should not see "Test assignment name 2 is due in C2" in the "Timetable" "block"
+    And I should see "Test assignment name 1 should be completed " in the "Timetable" "block"
+    And I should not see "Test assignment name 2 should be completed" in the "Timetable" "block"
     And I should not see "Course Event" in the "Timetable" "block"
     And I am on "Course 2" course homepage
     # Confirm the submission event is visible.
-    And I should not see "Test assignment name 1 is due in C1" in the "Timetable" "block"
-    And I should see "Test assignment name 2 is due in C2" in the "Timetable" "block"
+    And I should not see "Test assignment name 1 should be completed " in the "Timetable" "block"
+    And I should see "Test assignment name 2 should be completed " in the "Timetable" "block"
     And I should not see "Course Event" in the "Timetable" "block"
     And I log out
