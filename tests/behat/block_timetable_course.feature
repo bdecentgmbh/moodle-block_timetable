@@ -26,14 +26,14 @@ Feature: Timetable block used in a course
     And I log out
     And I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
-    And I add the "block_timetable" block
+    And I add the "Timetable" block
     And I add a "Assignment" to section "1" and I fill the form with:
         | Assignment name | Test assignment name 1 |
         | Description | Submit your online text |
         | assignsubmission_onlinetext_enabled | 1 |
         | assignsubmission_file_enabled | 0 |
     And I am on "Course 2" course homepage
-    And I add the "block_timetable" block
+    And I add the "Timetable" block
     And I add a "Assignment" to section "1" and I fill the form with:
         | Assignment name | Test assignment name 2 |
         | Description | Submit your online text |
@@ -47,14 +47,14 @@ Feature: Timetable block used in a course
     # Confirm the feed is showing two notifications.
     Then I should see "1" events in feed
     # Confirm the submission event is visible.
-    And I should see "Test assignment name 1 is due in C1" in the "block_timetable" "block"
-    And I should not see "Test assignment name 2 is due in C2" in the "block_timetable" "block"
-    And I should not see "Course Event" in the "block_timetable" "block"
+    And I should see "Test assignment name 1 is due in C1" in the "Timetable" "block"
+    And I should not see "Test assignment name 2 is due in C2" in the "Timetable" "block"
+    And I should not see "Course Event" in the "Timetable" "block"
     And I am on "Course 2" course homepage
     # Confirm the feed is showing one notification.
     Then I should see "1" events in feed
     # Confirm the submission event is visible.
-    And I should not see "Test assignment name 1 is due in C1" in the "block_timetable" "block"
-    And I should see "Test assignment name 2 is due in C2" in the "block_timetable" "block"
-    And I should not see "Course Event" in the "block_timetable" "block"
+    And I should not see "Test assignment name 1 is due in C1" in the "Timetable" "block"
+    And I should see "Test assignment name 2 is due in C2" in the "Timetable" "block"
+    And I should not see "Course Event" in the "Timetable" "block"
     And I log out

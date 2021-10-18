@@ -220,7 +220,6 @@ class eventlist implements templatable, renderable {
             $userparam = [];
             $userparam[1] = $calendar->course->id;
             $groupparam = [];
-            $groupparam[1] = $group;
             $m = 1;
             foreach ($groups as $cgroup) {
                 foreach ($cgroup as $group) {
