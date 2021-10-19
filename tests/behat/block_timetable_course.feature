@@ -24,7 +24,10 @@ Feature: Timetable block used in a course
         | id_eventtype | Site |
         | id_name | Course Event |
     And I log out
-   
+    And I log in as "teacher1"
+    And I am on "Course 1" course homepage with editing mode on
+    And I add the "Timetable" block
+    And I log out
 
   Scenario: Timetable shows current course events
     When I log in as "student1"
