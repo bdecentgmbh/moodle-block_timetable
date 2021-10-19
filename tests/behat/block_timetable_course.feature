@@ -24,33 +24,14 @@ Feature: Timetable block used in a course
         | id_eventtype | Site |
         | id_name | Course Event |
     And I log out
-    And I log in as "teacher1"
-    And I am on "Course 1" course homepage with editing mode on
-    And I add the "Timetable" block
-    And I add a "Assignment" to section "1" and I fill the form with:
-        | Assignment name | Test assignment name 1 |
-        | Description | Submit your online text |
-        | assignsubmission_onlinetext_enabled | 1 |
-        | assignsubmission_file_enabled | 0 |
-    And I am on "Course 2" course homepage
-    And I add the "Timetable" block
-    And I add a "Assignment" to section "1" and I fill the form with:
-        | Assignment name | Test assignment name 2 |
-        | Description | Submit your online text |
-        | assignsubmission_onlinetext_enabled | 1 |
-        | assignsubmission_file_enabled | 0 |
-    And I log out
+   
 
   Scenario: Timetable shows current course events
     When I log in as "student1"
     And I am on "Course 1" course homepage
     # Confirm the submission event is visible.
-    And I should see "Test assignment name 1 should be completed" in the "Timetable" "block"
-    And I should not see "Test assignment name 2 should be completed" in the "Timetable" "block"
     And I should not see "Course Event" in the "Timetable" "block"
     And I am on "Course 2" course homepage
     # Confirm the submission event is visible.
-    And I should not see "Test assignment name 1 should be completed" in the "Timetable" "block"
-    And I should see "Test assignment name 2 should be completed" in the "Timetable" "block"
     And I should not see "Course Event" in the "Timetable" "block"
     And I log out
