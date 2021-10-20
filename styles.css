@@ -127,6 +127,11 @@
 
 .block_timetable .events .item.past {
     opacity: 0.4;
+    transition: opacity .2s;
+}
+
+.block_timetable .events .item.past:hover {
+    opacity: 1;
 }
 
 .block_timetable .timetable_day {
