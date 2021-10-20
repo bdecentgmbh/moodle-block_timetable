@@ -157,11 +157,11 @@
 
 .timetable_day.active {
     background: #000;
-    color: #ffffff;
+    color: #fff;
 }
 
 .timetable_day.active a {
-    color: #ffffff;
+    color: #fff;
 }
 
 .timetable_day.inactive a {

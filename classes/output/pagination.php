@@ -61,8 +61,7 @@ class pagination implements templatable, renderable {
      * @return stdClass
      */
     public function export_for_template(renderer_base $output) {
-        $pagination = $this->get_pagination($this->prev, $this->next);
-
+        $pagination = $this->get_pagination($this->prev, $this->next, $output->instance_id, $output->time);
         return $pagination;
     }
 
@@ -74,14 +73,14 @@ class pagination implements templatable, renderable {
      * @param bool $next whether or not there are following pages
      * @return stdClass
      */
-    public function get_pagination($prev = false, $next = false) {
+    public function get_pagination($prev = false, $next = false, $instance_id, $time) {
         global $PAGE;
 
         $pagination = new stdClass();
 
         if ($prev) {
             $pagination->prev = new stdClass();
-            $pagination->prev->prevurl = new moodle_url($PAGE->url, ['block_timetable_page' => $prev]);
+            $pagination->prev->prevurl = new moodle_url($PAGE->url, ['block_timetable_page' => $prev ,'instance_id' => $instance_id ,'time' => $time]);
             $pagination->prev->prevtext = get_string('previous', 'block_timetable');
         }
         if ($prev && $next) {
@@ -91,7 +90,7 @@ class pagination implements templatable, renderable {
         }
         if ($next) {
             $pagination->next = new stdClass();
-            $pagination->next->nexturl = new moodle_url($PAGE->url, ['block_timetable_page' => $next]);
+            $pagination->next->nexturl = new moodle_url($PAGE->url, ['block_timetable_page' => $next ,'instance_id' => $instance_id ,'time' => $time]);
             $pagination->next->nexttext = get_string('next', 'block_timetable');
         }
 

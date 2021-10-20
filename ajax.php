@@ -31,11 +31,12 @@ use block_timetable\output\eventlist;
 require_login();
 global $DB;
 $PAGE->set_context(context_system::instance());
-$blockid = optional_param('blockid', 0 , PARAM_INT);
-$lookahead = required_param('lookahead', PARAM_INT);
-$courseid = required_param('courseid', PARAM_INT);
-$limitnum = required_param('limitnum', PARAM_INT);
+$lookahead = 1;
+$courseid = optional_param('courseid',1, PARAM_INT);
+$limitnum = optional_param('limitnum',5,PARAM_INT);
+$page= optional_param('block_timetable_page',1, PARAM_INT);
 $time = optional_param('time', strtotime('today midnight'), PARAM_INT);
+$instance_id=required_param('instance_id', PARAM_INT);
 $list = '';
 $end = false;
 $renderer = $PAGE->get_renderer('block_timetable');
@@ -46,14 +47,14 @@ $events = new eventlist(
     0,
     0,
     $limitnum,
-    0,
+    $page,
     'vertical',
     $time
 );
 $templatecontext = $events->export_for_template($renderer);
 $events = $templatecontext['events'];
 if ($events) {
-        $list .= $renderer->render_from_template('block_timetable/event',  $templatecontext);
+        $list .= $renderer->render_from_template('block_timetable/events',  $templatecontext);
 }
 
 echo json_encode(['output' => $list]);

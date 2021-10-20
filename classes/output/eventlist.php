@@ -80,6 +80,10 @@ class eventlist implements templatable, renderable {
      */
     public $time;
     /**
+     * @var int The instance id page.
+     */
+    public $instance_id;
+    /**
      * Constructor.
      *
      * @param int $lookahead
@@ -91,6 +95,7 @@ class eventlist implements templatable, renderable {
      * @param int $page
      * @param int $blockview
      * @param int $time
+     * @param int $instance_id
      */
     public function __construct(
         $lookahead,
@@ -101,7 +106,8 @@ class eventlist implements templatable, renderable {
         $limitnum,
         $page,
         $blockview,
-        $time) {
+        $time,
+        $instance_id) {
         $this->lookahead = $lookahead;
         $this->courseid = $courseid;
         $this->lastid = $lastid;
@@ -111,6 +117,7 @@ class eventlist implements templatable, renderable {
         $this->page = $page;
         $this->blockview = $blockview;
         $this->time = $time;
+        $this->instance_id = $instance_id;
     }
 
     /**
@@ -121,6 +128,8 @@ class eventlist implements templatable, renderable {
      */
     public function export_for_template(renderer_base $output) {
         $this->output = $output;
+        $this->output->instance_id = $this->instance_id;
+        $this->output->time = $this->time;
         list($more, $events) = $this->get_timetabevents(
             $this->lookahead,
             $this->courseid,
@@ -153,7 +162,8 @@ class eventlist implements templatable, renderable {
             'events' => $events,
             'pagination' => $pagination,
             'more' => $more,
-            'blockview' => $this->blockview
+            'blockview' => $this->blockview,
+            'instance_id' => $this->instance_id
             ];
     }
 

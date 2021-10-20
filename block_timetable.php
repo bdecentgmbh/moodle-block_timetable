@@ -90,7 +90,17 @@ class block_timetable extends block_base {
             if (empty($this->config->view)) {
                 $this->config->view = 'today';
             }
-            $ulayout = optional_param('ulayout', @$this->config->timetable, PARAM_RAW);
+            $instance_id = optional_param('instance_id', 0, PARAM_INT);
+            if($instance_id == $this->instance->id) {
+                $ulayout = optional_param('ulayout', @$this->config->timetable, PARAM_RAW);
+                $page = optional_param('block_timetable_page', 1, PARAM_RAW);
+                $time = optional_param('time', strtotime('today midnight'), PARAM_INT);
+            } else {
+                $ulayout = @$this->config->timetable;
+                $page = 1;
+                $time = strtotime('today midnight');
+            }
+            
             if ($ulayout == "nextxday") {
                   $maxevents = get_user_preferences('calendar_maxevents', 10);
                   $lookahead = get_user_preferences('calendar_lookahead', 6);
@@ -108,8 +118,6 @@ class block_timetable extends block_base {
                 $this->config->limit = 80;
             }
             $limitnum = $this->config->limit;
-            $page = optional_param('block_timetable_page', 1, PARAM_RAW);
-            $time = optional_param('time', strtotime('today midnight'), PARAM_INT);
             $limitfrom = $page > 1 ? ($page * $limitnum) - $limitnum : 0;
             $lastdate = 0;
             $lastid = 0;
@@ -127,7 +135,8 @@ class block_timetable extends block_base {
                 $limitnum,
                 $page,
                 $blockview,
-                $time
+                $time,
+                $this->instance->id
             );
             $checkboxtoday = @$this->config->checkboxtoday;
             $checkboxthisweek = @$this->config->checkboxthisweek;
@@ -158,18 +167,18 @@ class block_timetable extends block_base {
                     $this->content->text .= '</button><div id="menusortby" role="menu" class="dropdown-menu dropdown-menu-right';
                     $this->content->text .= 'list-group hidden" data-show-active-item="" data-skip-active-class="true">';
                     if ( $checkboxtoday ) {
-                        $url = new moodle_url($this->page->url , ['ulayout' => 'today' ]);
+                        $url = new moodle_url($this->page->url , ['ulayout' => 'today' ,'instance_id'=>$this->context->instanceid]);
                         $this->content->text .= ' <a class="dropdown-item" href="'. $url.'" >';
                         $this->content->text .= get_string('today', 'block_timetable').'</a>';
                     }
                     if ( $checkboxthisweek ) {
-                        $url = new moodle_url($this->page->url, ['ulayout' => 'thisweek' ]);
+                        $url = new moodle_url($this->page->url, ['ulayout' => 'thisweek','instance_id'=>$this->context->instanceid]);
                         $this->content->text .= ' <a class="dropdown-item" href="'. $url.'" >
                             '.get_string('thisweek', 'block_timetable').'
                         </a>';
                     }
                     if ( $checkboxnextxday ) {
-                        $url = new moodle_url($this->page->url, ['ulayout' => 'nextxday' ]);
+                        $url = new moodle_url($this->page->url, ['ulayout' => 'nextxday','instance_id'=>$this->context->instanceid]);
                         $this->content->text .= ' <a class="dropdown-item" href="'. $url.'" >
                         '.get_string('nextxday', 'block_timetable').'
                         </a>';
@@ -180,7 +189,6 @@ class block_timetable extends block_base {
             if ($ulayout == "thisweek") {
                 $this->content->text .= "<div class='timetable_calendar'>";
                 $l = $startwday - 1;
-                $time = optional_param('time', strtotime('today midnight'), PARAM_INT);
                 $weeknumber = date( 'N' + $startwday - 1);
                 $todayweek = date( 'N');
                 $weekday = date('l' , $time);
@@ -203,8 +211,8 @@ class block_timetable extends block_base {
                     if (  $weekday == $cal['fullname'] ) {
                         $class = " active";
                     }
-                    $time = strtotime( $cal['fullname'].' '.$midnight.' week midnight');
-                    $url = new moodle_url($this->page->url, ['time' => $time ]);
+                    $caltime = strtotime( $cal['fullname'].' '.$midnight.' week midnight');
+                    $url = new moodle_url($this->page->url, ['time' => $caltime , 'instance_id'=>$this->context->instanceid ]);
                     $this->content->text .= "<div class='timetable_day".$class."'><a href='".$url."'>".$cal['shortname'];
                     $this->content->text .= "</a></div>";
                 }

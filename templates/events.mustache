@@ -30,12 +30,31 @@
     }
 }}
 
-<div id="timetable-events{{instance_id}}" class="timetable {{blockview}}" data-template="block_timetable/event" >
-     {{> block_timetable/events}}        
-</div>
+<div class="col-sm d-flex justify-content-end" id="yui_{{uniqid}}">
+  </div>
+    <div class="events card-text content calendarwrapper"  data-context-id="{{defaulteventcontext}}" data-courseid="{{courseid}}" data-categoryid="{{categoryid}}">
+         
+    {{> block_timetable/event}}        
 
-{{#js}}
-require(['jquery', 'core_calendar/calendar_view'], function($, CalendarView) {
-    CalendarView.init($("#inst{{instance_id}} .timetable"), 'upcoming');
-});
-{{/js}}
+    </div>
+{{#pagination}}
+<div>
+   
+    {{#prev}}
+        <a href="{{{prevurl}}}">
+            <span aria-hidden="true">«</span>
+           {{prevtext}}
+        </a>
+    {{/prev}}
+    
+    {{{sep}}}
+    {{#next}}
+       <a href="{{{nexturl}}}">
+            
+           {{nexttext}} <span aria-hidden="true">»</span>
+        </a>
+    {{/next}}
+</div>
+{{/pagination}}
+
+
