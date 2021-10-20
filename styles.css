@@ -1,78 +1,66 @@
-.timetable .events {
+.block_timetable .events {
     list-style: none;
 }
 
-.timetable .calendar_event_site {
+.block_timetable .timetable-event {
+    font-weight: 600;
+}
+
+.block_timetable .calendar_event_site {
     background-color: #f4fdf2;
-    border-left: 5px solid #d6f9cd;
-    box-shadow: 0px 1px 1px rgba(0,0,0,0.12), 0px 2px 2px rgba(0,0,0,0.12), 0px 4px 4px rgba(0,0,0,0.12), 0px 8px 8px rgba(0,0,0,0.12), 0px 16px 16px rgba(0,0,0,0.12);
+    border-left: 5px solid #9cff83;
 }
 
-.timetable .calendar_event_site .notificationtext .timetable-event {
-    color: #265619;
-    font-weight: bold;
-}
-
-.timetable .calendar_event_site .notificationtext {
+.block_timetable .calendar_event_site,
+.block_timetable .calendar_event_site a {
     color: #265619;
 }
 
-.timetable .calendar_event_category {
-    background-color: #f4fdf2;
-    border-left: 5px solid #d6f9cd;
-    color: #215214;
-    box-shadow: 0px 1px 1px rgba(0,0,0,0.12), 0px 2px 2px rgba(0,0,0,0.12), 0px 4px 4px rgba(0,0,0,0.12), 0px 8px 8px rgba(0,0,0,0.12), 0px 16px 16px rgba(0,0,0,0.12);
+.block_timetable .calendar_event_category {
+    background-color: #f5eff5;
+    border-left: 5px solid #e0cbe0;
 }
 
-.timetable .calendar_event_category  .notificationtext .timetable-event {
-    color: #215214;
-    font-weight: bold;
+.block_timetable .calendar_event_category .timetable-event,
+.block_timetable .calendar_event_category a {
+    color: #4e254e;
 }
 
-.timetable .calendar_event_category .notificationtext {
-    color: #215214;
+.block_timetable .calendar_event_course .timetable-event,
+.block_timetable .calendar_event_course a {
+    color: #381400;
 }
 
-.timetable .calendar_event_course {
+.block_timetable .calendar_event_course {
     background-color: #fff5ee;
     border-left: 5px solid #facfb9;
-    box-shadow: 0px 1px 1px rgba(0,0,0,0.12), 0px 2px 2px rgba(0,0,0,0.12), 0px 4px 4px rgba(0,0,0,0.12), 0px 8px 8px rgba(0,0,0,0.12), 0px 16px 16px rgba(0,0,0,0.12);
-}
-
-.timetable .calendar_event_course .notificationtext .timetable-event {
-    color: #381400;
-    font-weight: bold;
-}
-
-.timetable .calendar_event_course .notificationtext {
     color: #381400;
 }
 
-.timetable .calendar_event_user .notificationtext .timetable-event {
-    color: #3e576f;
-    font-weight: bold;
-}
-
-.timetable .calendar_event_user .notificationtext {
+.block_timetable .calendar_event_user .timetable-event,
+.block_timetable .calendar_event_user a {
     color: #3e576f;
 }
 
-.timetable .calendar_event_group {
-    background-color: #fee7ae;
-    border-left: 5px solid #8a5700;
-    box-shadow: 0px 1px 1px rgba(0,0,0,0.12), 0px 2px 2px rgba(0,0,0,0.12), 0px 4px 4px rgba(0,0,0,0.12), 0px 8px 8px rgba(0,0,0,0.12), 0px 16px 16px rgba(0,0,0,0.12);
+.block_timetable .calendar_event_group {
+    background-color: #f2eee3;
+    border-left: 5px solid #fee7ae;
+    color: #684b05;
 }
 
-.timetable .calendar_event_user {
+.block_timetable .calendar_event_group .timetable-event,
+.block_timetable .calendar_event_group a {
+    color: #684b05;
+}
+
+.block_timetable .calendar_event_user {
     background-color: #f3f4f6;
     border-left: 5px solid #ced4da;
-    box-shadow: 0px 1px 1px rgba(0,0,0,0.12), 0px 2px 2px rgba(0,0,0,0.12), 0px 4px 4px rgba(0,0,0,0.12), 0px 8px 8px rgba(0,0,0,0.12), 0px 16px 16px rgba(0,0,0,0.12);
 }
 
-.timetable .calendar_event_other {
+.block_timetable .calendar_event_other {
     background-color: #ced4da;
     border-left: 5px solid #6c6c6c;
-    box-shadow: 0px 1px 1px rgba(0,0,0,0.12), 0px 2px 2px rgba(0,0,0,0.12), 0px 4px 4px rgba(0,0,0,0.12), 0px 8px 8px rgba(0,0,0,0.12), 0px 16px 16px rgba(0,0,0,0.12);
 }
 
 .block_timetable .content {
@@ -93,10 +81,18 @@
     padding: 0px;
 }
 
+.block_timetable .events .coursename {
+    text-transform: uppercase;
+    letter-spacing: .51px;
+    font-weight: 600;
+    font-size: small;
+}
+
 .block_timetable .event-item {
-    margin: 5px 0px 10px;
-    padding: 7px;
+    margin: 5px 3px 10px 2px;
+    padding: 6px 8px 6px 12px;
     position: relative;
+    box-shadow: 2px 2px 2px #ccc;
 }
 
 .block_timetable .event,
@@ -110,17 +106,17 @@
 }
 
 .block_timetable .footer {
-    clear: both;
-    padding: 10px 8px 0px 10px;
+    margin-top: 12px;
+    padding: 12px 6px 0px 6px;
     border-top: 1px solid #efefef;
 }
 
-.timetable.horizontal {
+.block_timetable .timetable.horizontal {
     overflow: auto;
     white-space: nowrap;
 }
 
-.timetable.horizontal .events .event-item {
+.block_timetable .timetable.horizontal .events .event-item {
     display: inline-block;
     text-decoration: none;
     width: 200px;
@@ -133,7 +129,7 @@
     opacity: 0.4;
 }
 
-.timetable_day {
+.block_timetable .timetable_day {
     float: left;
     width: 12%;
     margin: 0px 3px 0px 3px;
@@ -144,30 +140,30 @@
     border: 1px solid #f2f2f2;
 }
 
-.timetable_day a {
+.block_timetable .timetable_day a {
     color: #000;
     text-transform: uppercase;
     font-size: 12px;
     text-decoration: none;
 }
 
-.timetable_day.now {
+.block_timetable .timetable_day.now {
     border: 1px solid #000;
 }
 
-.timetable_day.active {
+.block_timetable .timetable_day.active {
     background: #000;
     color: #fff;
 }
 
-.timetable_day.active a {
+.block_timetable .timetable_day.active a {
     color: #fff;
 }
 
-.timetable_day.inactive a {
+.block_timetable .timetable_day.inactive a {
     color: #c1c1cb;
 }
 
-.timetable_day a:hover {
+.block_timetable .timetable_day a:hover {
     text-decoration: none;
 }
