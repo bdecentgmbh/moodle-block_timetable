@@ -65,20 +65,20 @@
 
 .block_timetable .content {
     position: relative;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
 }
 
 .block_timetable .timetable {
     width: 100%;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 
 .block_timetable .events {
     list-style: none;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 
 .block_timetable .events .coursename {
@@ -102,12 +102,12 @@
 }
 
 .block_timetable hr {
-    margin: 5px 0px;
+    margin: 5px 0;
 }
 
 .block_timetable .footer {
     margin-top: 12px;
-    padding: 12px 6px 0px 6px;
+    padding: 12px 6px 0 6px;
     border-top: 1px solid #efefef;
 }
 
@@ -132,7 +132,7 @@
 .block_timetable .timetable_day {
     float: left;
     width: 12%;
-    margin: 0px 3px 0px 3px;
+    margin: 0 3px 0 3px;
     text-align: center;
     background: #f2f2f2;
     color: #000;
