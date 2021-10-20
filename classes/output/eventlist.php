@@ -228,7 +228,6 @@ class eventlist implements templatable, renderable {
             $courseparam = [];
             $courseparam[1] = $calendar->course->id;
             $userparam = [];
-            $userparam[1] = $calendar->course->id;
             $groupparam = [];
             $m = 1;
             foreach ($groups as $cgroup) {
@@ -345,7 +344,7 @@ class eventlist implements templatable, renderable {
                     $event->coursename = $event->category->name;
                 } else if ( $event->eventtype == "user" ) {
                     $event->coursename = $event->normalisedeventtypetext;
-                } else if ( $event->eventtype == "course" ) {
+                } else if ( $event->normalisedeventtype == "course" ) {
                     $event->coursename = $event->course->fullname;
                 } else if ( $event->eventtype == "expectcompletionon" ) {
                     $event->coursename = $event->course->fullname;
