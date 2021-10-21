@@ -31,20 +31,14 @@
 }}
 
 {{#footer}}
-<div class="footer">
-	{{#manageentries}}
-	<div>
-		<a href="{{{addeventurl}}}">
-			{{#pix }} t/add, core {{/pix }}
-			{{#str}} newevent, calendar {{/str}}
-		</a>
-	</div>
-	{{/manageentries}}
-	<div>
-		<a href="{{{calendarurl}}}">
-			{{#pix }} i/calendar, core {{/pix }}
-			{{#str}} gotocalendar, calendar {{/str}}
-		</a>
-	</div>
-</div>
+{{#manageentries}}
+<a href="{{{addeventurl}}}">
+	{{#pix }} t/add, core {{/pix }}
+	{{#str}} newevent, calendar {{/str}}
+</a>
+{{/manageentries}}
+<a class="pull-right" href="{{{calendarurl}}}">
+	{{#pix }} i/calendar, core {{/pix }}
+	{{#str}} gotocalendar, calendar {{/str}}
+</a>
 {{/footer}}
