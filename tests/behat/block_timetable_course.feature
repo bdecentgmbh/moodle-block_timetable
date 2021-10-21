@@ -50,4 +50,3 @@ Feature: Timetable block used in a course
     # Confirm the submission event is visible.
     And I should not see "Course Event" in the "Timetable" "block"
     And I log out
-    
