@@ -90,8 +90,8 @@ class block_timetable extends block_base {
             if (empty($this->config->view)) {
                 $this->config->view = 'today';
             }
-            $instance_id = optional_param('instance_id', 0, PARAM_INT);
-            if($instance_id == $this->instance->id) {
+            $instanceid = optional_param('instanceid', 0, PARAM_INT);
+            if ($instanceid == $this->instance->id) {
                 $ulayout = optional_param('ulayout', @$this->config->timetable, PARAM_RAW);
                 $page = optional_param('block_timetable_page', 1, PARAM_RAW);
                 $time = optional_param('time', strtotime('today midnight'), PARAM_INT);
@@ -100,7 +100,6 @@ class block_timetable extends block_base {
                 $page = 1;
                 $time = strtotime('today midnight');
             }
-            
             if ($ulayout == "nextxday") {
                   $maxevents = get_user_preferences('calendar_maxevents', 10);
                   $lookahead = get_user_preferences('calendar_lookahead', 6);
@@ -110,7 +109,6 @@ class block_timetable extends block_base {
             if ($ulayout == "thisweek") {
                 $calendartype = \core_calendar\type_factory::get_calendar_instance();
                 $calendarweek = $calendartype->get_weekdays();
-                $startwday = get_user_preferences('calendar_startwday', 1);
             }
             if (empty(@$this->config->limit)) {
                 $this->config->limit = 5;
@@ -136,7 +134,8 @@ class block_timetable extends block_base {
                 $page,
                 $blockview,
                 $time,
-                $this->instance->id
+                $this->instance->id,
+                $ulayout
             );
             $checkboxtoday = @$this->config->checkboxtoday;
             $checkboxthisweek = @$this->config->checkboxthisweek;
@@ -167,18 +166,21 @@ class block_timetable extends block_base {
                     $this->content->text .= '</button><div id="menusortby" role="menu" class="dropdown-menu dropdown-menu-right';
                     $this->content->text .= 'list-group hidden" data-show-active-item="" data-skip-active-class="true">';
                     if ( $checkboxtoday ) {
-                        $url = new moodle_url($this->page->url , ['ulayout' => 'today' ,'instance_id'=>$this->context->instanceid]);
+                        $varparams = ['ulayout' => 'today' , 'instanceid' => $this->context->instanceid];
+                        $url = new moodle_url($this->page->url , $varparams);
                         $this->content->text .= ' <a class="dropdown-item" href="'. $url.'" >';
                         $this->content->text .= get_string('today', 'block_timetable').'</a>';
                     }
                     if ( $checkboxthisweek ) {
-                        $url = new moodle_url($this->page->url, ['ulayout' => 'thisweek','instance_id'=>$this->context->instanceid]);
+                        $varparams = ['ulayout' => 'thisweek' , 'instanceid' => $this->context->instanceid];
+                        $url = new moodle_url($this->page->url, $varparams);
                         $this->content->text .= ' <a class="dropdown-item" href="'. $url.'" >
                             '.get_string('thisweek', 'block_timetable').'
                         </a>';
                     }
                     if ( $checkboxnextxday ) {
-                        $url = new moodle_url($this->page->url, ['ulayout' => 'nextxday','instance_id'=>$this->context->instanceid]);
+                        $varparams = ['ulayout' => 'nextxday' , 'instanceid' => $this->context->instanceid];
+                        $url = new moodle_url($this->page->url, $varparams);
                         $this->content->text .= ' <a class="dropdown-item" href="'. $url.'" >
                         '.get_string('nextxday', 'block_timetable').'
                         </a>';
@@ -188,6 +190,7 @@ class block_timetable extends block_base {
             }
             if ($ulayout == "thisweek") {
                 $this->content->text .= "<div class='timetable_calendar'>";
+                $startwday = (int)get_user_preferences('calendar_startwday', 1);
                 $l = $startwday - 1;
                 $weeknumber = date( 'N' + $startwday - 1);
                 $todayweek = date( 'N');
@@ -212,7 +215,8 @@ class block_timetable extends block_base {
                         $class = " active";
                     }
                     $caltime = strtotime( $cal['fullname'].' '.$midnight.' week midnight');
-                    $url = new moodle_url($this->page->url, ['time' => $caltime , 'instance_id'=>$this->context->instanceid ]);
+                    $varparams = ['time' => $caltime , 'instanceid' => $this->context->instanceid , 'ulayout' => $ulayout ];
+                    $url = new moodle_url($this->page->url, $varparams);
                     $this->content->text .= "<div class='timetable_day".$class."'><a href='".$url."'>".$cal['shortname'];
                     $this->content->text .= "</a></div>";
                 }

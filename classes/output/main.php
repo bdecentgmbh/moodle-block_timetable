@@ -72,10 +72,10 @@ class main implements templatable, renderable {
      * @var int The current page if JS is disabled.
      */
     public $time;
-     /**
+    /**
      * @var int The instance id page.
      */
-    public $instance_id;
+    public $instanceid;
     /**
      * Constructor.
      *
@@ -88,7 +88,8 @@ class main implements templatable, renderable {
      * @param int $page
      * @param int $blockview
      * @param int $time
-     * @param int $instance_id
+     * @param int $instanceid
+     * @param string $ulayout layout of current event
      */
     public function __construct(
         $lookahead,
@@ -100,7 +101,8 @@ class main implements templatable, renderable {
         $page,
         $blockview,
         $time,
-        $instance_id) {
+        $instanceid,
+        $ulayout) {
         $this->lookahead = $lookahead;
         $this->courseid = $courseid;
         $this->lastid = $lastid;
@@ -110,7 +112,8 @@ class main implements templatable, renderable {
         $this->page = $page;
         $this->blockview = $blockview;
         $this->time = $time;
-        $this->instance_id = $instance_id;
+        $this->instanceid = $instanceid;
+        $this->ulayout = $ulayout;
     }
 
     /**
@@ -132,7 +135,8 @@ class main implements templatable, renderable {
             $this->page,
             $this->blockview,
             $this->time ,
-            $this->instance_id
+            $this->instanceid,
+            $this->ulayout
         );
         $templatecontext = $events->export_for_template($output);
         return $templatecontext;

@@ -82,7 +82,11 @@ class eventlist implements templatable, renderable {
     /**
      * @var int The instance id page.
      */
-    public $instance_id;
+    public $instanceid;
+    /**
+     * @var var The ulayout page.
+     */
+    public $ulayout;
     /**
      * Constructor.
      *
@@ -95,7 +99,8 @@ class eventlist implements templatable, renderable {
      * @param int $page
      * @param int $blockview
      * @param int $time
-     * @param int $instance_id
+     * @param int $instanceid
+     * @param string $ulayout layout of current event
      */
     public function __construct(
         $lookahead,
@@ -107,7 +112,8 @@ class eventlist implements templatable, renderable {
         $page,
         $blockview,
         $time,
-        $instance_id) {
+        $instanceid,
+        $ulayout) {
         $this->lookahead = $lookahead;
         $this->courseid = $courseid;
         $this->lastid = $lastid;
@@ -117,7 +123,8 @@ class eventlist implements templatable, renderable {
         $this->page = $page;
         $this->blockview = $blockview;
         $this->time = $time;
-        $this->instance_id = $instance_id;
+        $this->instanceid = $instanceid;
+        $this->ulayout = $ulayout;
     }
 
     /**
@@ -128,8 +135,9 @@ class eventlist implements templatable, renderable {
      */
     public function export_for_template(renderer_base $output) {
         $this->output = $output;
-        $this->output->instance_id = $this->instance_id;
+        $this->output->instanceid = $this->instanceid;
         $this->output->time = $this->time;
+        $this->output->ulayout = $this->ulayout;
         list($more, $events) = $this->get_timetabevents(
             $this->lookahead,
             $this->courseid,
@@ -163,7 +171,8 @@ class eventlist implements templatable, renderable {
             'pagination' => $pagination,
             'more' => $more,
             'blockview' => $this->blockview,
-            'instance_id' => $this->instance_id
+            'instanceid' => $this->instanceid,
+            'ulayout' => $this->ulayout
             ];
     }
 
@@ -224,17 +233,14 @@ class eventlist implements templatable, renderable {
         );
         // Remove site events from block if this is course.
         if ($calendar->course->id != SITEID) {
-            $groups = groups_get_user_groups($calendar->course->id, $USER->id);
+            $groups = groups_get_all_groups($calendar->course->id);
             $courseparam = [];
             $courseparam[1] = $calendar->course->id;
-            $userparam = [];
             $groupparam = [];
-            $m = 1;
-            foreach ($groups as $cgroup) {
-                foreach ($cgroup as $group) {
-                    $groupparam[$m] = $group;
+            $m = 0;
+            foreach ($groups as $group) {
+                    $groupparam[$m] = $group->id;
                     $m++;
-                }
             }
             $categoryparam = array();
         }
