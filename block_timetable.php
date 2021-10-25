@@ -101,14 +101,15 @@ class block_timetable extends block_base {
                 $time = strtotime('today midnight');
             }
             if ($ulayout == "nextxday") {
-                  $maxevents = get_user_preferences('calendar_maxevents', 10);
-                  $lookahead = get_user_preferences('calendar_lookahead', 6);
+                if (isloggedin()) {
+                    $maxevents = get_user_preferences('calendar_maxevents', 10);
+                    $lookahead = get_user_preferences('calendar_lookahead', 6);
+                } else {
+                    $maxevents = 10;
+                    $lookahead = 6;
+                }
             } else {
                 $lookahead = true;
-            }
-            if ($ulayout == "thisweek") {
-                $calendartype = \core_calendar\type_factory::get_calendar_instance();
-                $calendarweek = $calendartype->get_weekdays();
             }
             if (empty(@$this->config->limit)) {
                 $this->config->limit = 5;
@@ -189,36 +190,48 @@ class block_timetable extends block_base {
                 }
             }
             if ($ulayout == "thisweek") {
+                $calendartype = \core_calendar\type_factory::get_calendar_instance();
+                $calendarweek = $calendartype->get_weekdays();
+                if (isloggedin()) {
+                    $startwday = (int)get_user_preferences('calendar_startwday', 1);
+                } else {
+                    $startwday = 1;
+                }
+                $preference = $startwday;
+                $now = strtotime(("today midnight"));
                 $this->content->text .= "<div class='timetable_calendar'>";
-                $startwday = (int)get_user_preferences('calendar_startwday', 1);
                 $l = $startwday - 1;
-                $weeknumber = date( 'N' + $startwday - 1);
                 $todayweek = date( 'N');
+                $todayweekname = date( 'l');
                 $weekday = date('l' , $time);
                 $midnight = "this";
+                $c = 0;
+                $m = 0;
+                $n = 0;
                 foreach ($calendarweek as $cal) {
                     if ($startwday == 7) {
                         $startwday = 0;
-                        $midnight = "next";
                     }
                     $cal = $calendarweek[$startwday];
-                    $startwday++;
                     $class = "";
                     $l++;
-                    if ($l < $todayweek) {
+                    if ( $m == 0 ) {
                         $class = " inactive";
-                    }
-                    if ( $l == $todayweek ) {
-                        $class = " now";
                     }
                     if (  $weekday == $cal['fullname'] ) {
                         $class = " active";
                     }
-                    $caltime = strtotime( $cal['fullname'].' '.$midnight.' week midnight');
+                    if ( $todayweekname == $cal['fullname']) {
+                         $m = 1;
+                        $class = " now";
+                    }
+                    $caltime = strtotime( $calendarweek[$preference]['fullname'].' last week  +'.$n.' day midnight');
                     $varparams = ['time' => $caltime , 'instanceid' => $this->context->instanceid , 'ulayout' => $ulayout ];
                     $url = new moodle_url($this->page->url, $varparams);
                     $this->content->text .= "<div class='timetable_day".$class."'><a href='".$url."'>".$cal['shortname'];
                     $this->content->text .= "</a></div>";
+                    $startwday++;
+                    $n++;
                 }
                 $this->content->text .= "</div>";
             }
@@ -226,10 +239,8 @@ class block_timetable extends block_base {
             $renderable = new \block_timetable\output\footer($courseid);
             $this->content->footer .= $renderer->render($renderable);
         }
-
         return $this->content;
     }
-
     /**
      * Return the plugin config settings for external functions.
      *
