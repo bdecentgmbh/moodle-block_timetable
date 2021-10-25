@@ -217,15 +217,17 @@ class block_timetable extends block_base {
                     $l++;
                     if ( $m == 0 ) {
                         $class = " inactive";
+                        $week = "last";
+                    }
+                    if ( $todayweekname == $cal['fullname']) {
+                        $m = 1;
+                        $class = " now";
+                        $week = " this";
                     }
                     if (  $weekday == $cal['fullname'] ) {
                         $class = " active";
                     }
-                    if ( $todayweekname == $cal['fullname']) {
-                         $m = 1;
-                        $class = " now";
-                    }
-                    $caltime = strtotime( $calendarweek[$preference]['fullname'].' last week  +'.$n.' day midnight');
+                    $caltime = strtotime( $cal['fullname'].' '.$week.' week  midnight');
                     $varparams = ['time' => $caltime , 'instanceid' => $this->context->instanceid , 'ulayout' => $ulayout ];
                     $url = new moodle_url($this->page->url, $varparams);
                     $this->content->text .= "<div class='timetable_day".$class."'><a href='".$url."'>".$cal['shortname'];
