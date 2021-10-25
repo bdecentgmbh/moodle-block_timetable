@@ -29,27 +29,43 @@ require_once(dirname(__FILE__) . '/../../config.php');
 require_once(dirname(__FILE__) . '/../../calendar/lib.php');
 use block_timetable\output\eventlist;
 require_login();
-global $DB;
+global $DB , $COURSE;
 $PAGE->set_context(context_system::instance());
-$lookahead = 1;
-$courseid = optional_param('courseid', 1, PARAM_INT);
-$limitnum = optional_param('limitnum', 5, PARAM_INT);
 $page = optional_param('block_timetable_page', 1, PARAM_INT);
 $time = optional_param('time', strtotime('today midnight'), PARAM_INT);
+$courseid = optional_param('courseid', $COURSE->id, PARAM_INT);
 $instanceid = required_param('instanceid', PARAM_INT);
+$ulayout = required_param('ulayout', PARAM_RAW);
+if ( $ulayout == "nextxday" ) {
+    if (isloggedin()) {
+        $maxevents = get_user_preferences('calendar_maxevents', 10);
+        $lookahead = get_user_preferences('calendar_lookahead', 6);
+    } else {
+        $maxevents = 10;
+        $lookahead = 6;
+    }
+} else {
+        $lookahead = true;
+}
 $list = '';
 $end = false;
+$limitnum = 80;
+$limitfrom = $page > 1 ? ($page * $limitnum) - $limitnum : 0;
+$lastdate = 0;
+$lastid = 0;
 $renderer = $PAGE->get_renderer('block_timetable');
 $events = new eventlist(
     $lookahead,
     $courseid,
-    0,
-    0,
-    0,
+    $lastid,
+    $lastdate,
+    $limitfrom,
     $limitnum,
     $page,
-    'vertical',
-    $time
+    $blockview,
+    $time,
+    $instanceid,
+    $ulayout
 );
 $templatecontext = $events->export_for_template($renderer);
 $events = $templatecontext['events'];

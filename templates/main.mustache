@@ -37,5 +37,24 @@
 {{#js}}
 require(['jquery', 'core_calendar/calendar_view'], function($, CalendarView) {
     CalendarView.init($("#inst{{instanceid}} .timetable"), 'upcoming');
+    $(".dropdown{{instanceid}}").click(function() {
+            var url = $(this).data('url');
+            var mode = $(this).data('mode');
+            $.ajax({
+          url: url,
+    })
+  .done(function( html ) {
+    $("#timetable-events{{instanceid}}").html(html.output);
+    if(mode=="thisweek")
+    {
+        $("#cal{{instanceid}}").show();
+    }
+    else
+    {
+        $("#cal{{instanceid}}").hide();
+    
+    }
+  });
+        });
 });
 {{/js}}
