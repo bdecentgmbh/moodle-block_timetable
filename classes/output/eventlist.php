@@ -138,6 +138,7 @@ class eventlist implements templatable, renderable {
         $this->output->instanceid = $this->instanceid;
         $this->output->time = $this->time;
         $this->output->ulayout = $this->ulayout;
+        $this->output->courseid = $this->courseid;
         list($more, $events) = $this->get_timetabevents(
             $this->lookahead,
             $this->courseid,

@@ -61,7 +61,8 @@ class pagination implements templatable, renderable {
      * @return stdClass
      */
     public function export_for_template(renderer_base $output) {
-        $pagination = $this->get_pagination($this->prev, $this->next, $output->instanceid, $output->time, $output->ulayout);
+        $pagination = $this->get_pagination($this->prev, $this->next, $output->instanceid, $output->time,
+                                            $output->ulayout, $output->courseid);
         return $pagination;
     }
 
@@ -74,16 +75,18 @@ class pagination implements templatable, renderable {
      * @param int $instanceid id of current instance
      * @param int $time time of current event range start
      * @param string $ulayout layout of current event
+     * @param int $courseid course id
      * @return stdClass
      */
-    public function get_pagination($prev = false, $next = false, $instanceid, $time , $ulayout) {
+    public function get_pagination($prev = false, $next = false, $instanceid, $time , $ulayout , $courseid) {
         global $PAGE , $CFG;
 
         $pagination = new stdClass();
 
         if ($prev) {
             $pagination->prev = new stdClass();
-            $varparams = ['block_timetable_page' => $prev , 'instanceid' => $instanceid , 'time' => $time , 'ulayout' => $ulayout];
+            $varparams = ['block_timetable_page' => $prev , 'instanceid' => $instanceid , 'time' => $time ,
+                          'ulayout' => $ulayout, 'courseid' => $courseid];
             $pagination->prev->prevurl = new moodle_url($CFG->wwwroot.'/blocks/timetable/ajax.php', $varparams);
             $pagination->prev->prevtext = get_string('previous', 'block_timetable');
         }
@@ -94,7 +97,8 @@ class pagination implements templatable, renderable {
         }
         if ($next) {
             $pagination->next = new stdClass();
-            $varparams = ['block_timetable_page' => $next , 'instanceid' => $instanceid , 'time' => $time , 'ulayout' => $ulayout];
+            $varparams = ['block_timetable_page' => $next , 'instanceid' => $instanceid , 'time' => $time ,
+                          'ulayout' => $ulayout, 'courseid' => $courseid];
             $pagination->next->nexturl = new moodle_url($CFG->wwwroot.'/blocks/timetable/ajax.php', $varparams );
             $pagination->next->nexttext = get_string('next', 'block_timetable');
         }
