@@ -77,14 +77,14 @@ class pagination implements templatable, renderable {
      * @return stdClass
      */
     public function get_pagination($prev = false, $next = false, $instanceid, $time , $ulayout) {
-        global $PAGE;
+        global $PAGE , $CFG;
 
         $pagination = new stdClass();
 
         if ($prev) {
             $pagination->prev = new stdClass();
             $varparams = ['block_timetable_page' => $prev , 'instanceid' => $instanceid , 'time' => $time , 'ulayout' => $ulayout];
-            $pagination->prev->prevurl = new moodle_url($PAGE->url, $varparams);
+            $pagination->prev->prevurl = new moodle_url($CFG->wwwroot.'/blocks/timetable/ajax.php', $varparams);
             $pagination->prev->prevtext = get_string('previous', 'block_timetable');
         }
         if ($prev && $next) {
@@ -95,7 +95,7 @@ class pagination implements templatable, renderable {
         if ($next) {
             $pagination->next = new stdClass();
             $varparams = ['block_timetable_page' => $next , 'instanceid' => $instanceid , 'time' => $time , 'ulayout' => $ulayout];
-            $pagination->next->nexturl = new moodle_url($PAGE->url, $varparams );
+            $pagination->next->nexturl = new moodle_url($CFG->wwwroot.'/blocks/timetable/ajax.php', $varparams );
             $pagination->next->nexttext = get_string('next', 'block_timetable');
         }
 

@@ -37,7 +37,9 @@
 {{#js}}
 require(['jquery', 'core_calendar/calendar_view'], function($, CalendarView) {
     CalendarView.init($("#inst{{instanceid}} .timetable"), 'upcoming');
-    $(".dropdown{{instanceid}}").click(function() {
+    $("body").on("click", ".timeblock{{instanceid}}", function(event){
+    $(".timetable_day{{instanceid}}").removeClass('active');
+    $(this).parent("div").addClass('active');
             var url = $(this).data('url');
             var mode = $(this).data('mode');
             $.ajax({

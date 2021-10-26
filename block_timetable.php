@@ -169,14 +169,14 @@ class block_timetable extends block_base {
                     if ( $checkboxtoday ) {
                         $varparams = ['ulayout' => 'today' , 'instanceid' => $this->context->instanceid];
                         $url = new moodle_url($CFG->wwwroot.'/blocks/timetable/ajax.php' , $varparams);
-                        $this->content->text .= ' <a class="dropdown-item dropdown'.$this->context->instanceid.'" ';
+                        $this->content->text .= ' <a class="dropdown-item timeblock'.$this->context->instanceid.'" ';
                         $this->content->text .= ' "href="#" data-mode="today" data-url="'.$url.'">';
                         $this->content->text .= get_string('today', 'block_timetable').'</a>';
                     }
                     if ( $checkboxthisweek ) {
                         $varparams = ['ulayout' => 'thisweek' , 'instanceid' => $this->context->instanceid];
                         $url = new moodle_url($CFG->wwwroot.'/blocks/timetable/ajax.php', $varparams);
-                        $this->content->text .= ' <a class="dropdown-item dropdown'.$this->context->instanceid.'"
+                        $this->content->text .= ' <a class="dropdown-item timeblock'.$this->context->instanceid.'"
                         href="#" data-mode="thisweek" data-url="'.$url.'">
                             '.get_string('thisweek', 'block_timetable').'
                         </a>';
@@ -184,7 +184,7 @@ class block_timetable extends block_base {
                     if ( $checkboxnextxday ) {
                         $varparams = ['ulayout' => 'nextxday' , 'instanceid' => $this->context->instanceid];
                         $url = new moodle_url($CFG->wwwroot.'/blocks/timetable/ajax.php', $varparams);
-                        $this->content->text .= ' <a class="dropdown-item dropdown'.$this->context->instanceid.'"
+                        $this->content->text .= ' <a class="dropdown-item timeblock'.$this->context->instanceid.'"
                         href="#" data-mode="nextxday" data-url="'.$url.'">
                         '.get_string('nextxday', 'block_timetable').'
                         </a>';
@@ -224,16 +224,19 @@ class block_timetable extends block_base {
                     }
                     if ( $todayweekname == $cal['fullname']) {
                         $m = 1;
-                        $class = " now";
+                        if (  $weekday == $cal['fullname'] ) {
+                            $class = " now active";
+                        } else {
+                            $class = " now";
+                        }
                         $week = " this";
-                    }
-                    if (  $weekday == $cal['fullname'] ) {
-                        $class = " active";
                     }
                     $caltime = strtotime( $cal['fullname'].' '.$week.' week  midnight');
                     $varparams = ['time' => $caltime , 'instanceid' => $this->context->instanceid , 'ulayout' => $ulayout ];
-                    $url = new moodle_url($this->page->url, $varparams);
-                    $this->content->text .= "<div class='timetable_day".$class."'><a href='".$url."'>".$cal['shortname'];
+                    $url = new moodle_url($CFG->wwwroot.'/blocks/timetable/ajax.php', $varparams);
+                    $this->content->text .= "<div class='timetable_day".$this->context->instanceid." timetable_day".$class."'>
+                    <a class='timeblock".$this->context->instanceid."' href='#'
+                    data-mode='".$ulayout."'  data-url='".$url."' >".$cal['shortname'];
                     $this->content->text .= "</a></div>";
                     $startwday++;
                     $n++;

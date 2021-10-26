@@ -29,13 +29,17 @@ require_once(dirname(__FILE__) . '/../../config.php');
 require_once(dirname(__FILE__) . '/../../calendar/lib.php');
 use block_timetable\output\eventlist;
 require_login();
-global $DB , $COURSE;
+global $DB , $CFG, $COURSE;
+require_once( $CFG->libdir.'/blocklib.php' );
 $PAGE->set_context(context_system::instance());
 $page = optional_param('block_timetable_page', 1, PARAM_INT);
 $time = optional_param('time', strtotime('today midnight'), PARAM_INT);
 $courseid = optional_param('courseid', $COURSE->id, PARAM_INT);
 $instanceid = required_param('instanceid', PARAM_INT);
 $ulayout = required_param('ulayout', PARAM_RAW);
+$context = context_block::instance($instanceid);
+$instance = $DB->get_record_sql('select * from {block_instances} where id=?', array($instanceid));
+$config = unserialize(base64_decode($instance->configdata));
 if ( $ulayout == "nextxday" ) {
     if (isloggedin()) {
         $maxevents = get_user_preferences('calendar_maxevents', 10);
@@ -49,11 +53,15 @@ if ( $ulayout == "nextxday" ) {
 }
 $list = '';
 $end = false;
-$limitnum = 80;
+$limitnum = $config->limit;
 $limitfrom = $page > 1 ? ($page * $limitnum) - $limitnum : 0;
 $lastdate = 0;
 $lastid = 0;
 $renderer = $PAGE->get_renderer('block_timetable');
+if (empty($config->view)) {
+    $config->view = 'vertical';
+}
+$blockview = $config->view;
 $events = new eventlist(
     $lookahead,
     $courseid,

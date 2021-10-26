@@ -41,7 +41,7 @@
 <div>
    
     {{#prev}}
-        <a href="{{{prevurl}}}">
+        <a href="#" data-url="{{{prevurl}}}" data-mode="{{ulayout}}" class="timeblock{{instanceid}}" >
             <span aria-hidden="true">«</span>
            {{prevtext}}
         </a>
@@ -49,7 +49,7 @@
     
     {{{sep}}}
     {{#next}}
-       <a href="{{{nexturl}}}">
+       <a href="#"  data-url="{{{nexturl}}}"  data-mode="{{ulayout}}" class="timeblock{{instanceid}}">
             
            {{nexttext}} <span aria-hidden="true">»</span>
         </a>
