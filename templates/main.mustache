@@ -38,8 +38,6 @@
 require(['jquery', 'core_calendar/calendar_view'], function($, CalendarView) {
     CalendarView.init($("#inst{{instanceid}} .timetable"), 'upcoming');
     $("body").on("click", ".timeblock{{instanceid}}", function(event){
-    $(".timetable_day{{instanceid}}").removeClass('active');
-    $(this).parent("div").addClass('active');
             var url = $(this).data('url');
             var mode = $(this).data('mode');
             $.ajax({
@@ -57,6 +55,28 @@ require(['jquery', 'core_calendar/calendar_view'], function($, CalendarView) {
     
     }
   });
-        });
+  });
+    $("body").on("click", ".dateblock{{instanceid}}", function(event){
+           $(".dateblock_day{{instanceid}}").removeClass('active');
+           $(this).parent("div").addClass('active');
+            var url = $(this).data('url');
+            var mode = $(this).data('mode');
+            $.ajax({
+          url: url,
+    })
+  .done(function( html ) {
+    $("#timetable-events{{instanceid}}").html(html.output);
+    if(mode=="thisweek")
+    {
+        $("#cal{{instanceid}}").show();
+    }
+    else
+    {
+        $("#cal{{instanceid}}").hide();
+    
+    }
+  });
+  });
+  
 });
 {{/js}}

@@ -243,8 +243,8 @@ class block_timetable extends block_base {
                     $varparams = ['time' => $caltime , 'instanceid' => $this->context->instanceid ,
                                   'ulayout' => $clayout , 'courseid' => $courseid ];
                     $url = new moodle_url($CFG->wwwroot.'/blocks/timetable/ajax.php', $varparams);
-                    $this->content->text .= "<div class='timetable_day".$this->context->instanceid." timetable_day".$class."'>
-                    <a class='timeblock".$this->context->instanceid."' href='#'
+                    $this->content->text .= "<div class='dateblock_day".$this->context->instanceid." timetable_day".$class."'>
+                    <a class='dateblock".$this->context->instanceid."' href='#'
                     data-mode='".$clayout."'  data-url='".$url."' >".$cal['shortname'];
                     $this->content->text .= "</a></div>";
                     $startwday++;
