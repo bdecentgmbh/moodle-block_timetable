@@ -33,34 +33,33 @@
 <div id="timetable-events{{instanceid}}" class="timetable {{blockview}}" data-template="block_timetable/event" >
      {{> block_timetable/events}}        
 </div>
-
 {{#js}}
 require(['jquery', 'core_calendar/calendar_view'], function($, CalendarView) {
     CalendarView.init($("#inst{{instanceid}} .timetable"), 'upcoming');
-    $("body").on("click", ".timeblock{{instanceid}}", function(){
+    $("body").on("click", ".timeblock{{instanceid}}", function() {
         var url = $(this).data('url');
         var mode = $(this).data('mode');
         $.ajax({
            url: url,
-        }).done(function( html ) {
+        }).done(function(html) {
             $("#timetable-events{{instanceid}}").html(html.output);
-            if ( mode == "thisweek" ) {
+            if (mode == "thisweek") {
                 $("#cal{{instanceid}}").show();
             } else {
                $("#cal{{instanceid}}").hide();
             }
         });
     });
-    $("body").on("click", ".dateblock{{instanceid}}", function(){
+    $("body").on("click", ".dateblock{{instanceid}}", function() {
         $(".dateblock_day{{instanceid}}").removeClass('active');
         $(this).parent("div").addClass('active');
         var url = $(this).data('url');
         var mode = $(this).data('mode');
         $.ajax({
             url: url,
-        }).done(function( html ) {
+        }).done(function(html) {
         $("#timetable-events{{instanceid}}").html(html.output);
-            if ( mode == "thisweek" ) {
+            if (mode == "thisweek") {
                 $("#cal{{instanceid}}").show();
             } else {
                 $("#cal{{instanceid}}").hide();
