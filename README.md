@@ -21,7 +21,7 @@ Installation
 ------------
 
 Install the plugin like any other plugin to folder
-/availability/condition/sectioncomplete
+/blocks/timetable
 
 See http://docs.moodle.org/en/Installing_plugins for details on installing Moodle plugins
 
@@ -32,13 +32,10 @@ Usage & Settings
 After installing the plugin, it is ready to use without the need for any configuration.
 
 Admins can add it to the dashboard. The block has the following configuration options:
-1. Default view – Dropdown – Today, This Week, This Month, Next X days
-2. Available views – Checkboxes – Today, This Week, This Month, Next X days
-3. Display options – Checkboxes – Event Title, Description, Link, Location, Duration, Single/Recurring, Type, Status (past/future)
-
-Teachers (or other users with editing rights) can add it to their courses. It will provide the same configuration options and one additional:
-1. Scope – Radio Button – This course only, All
-
+1. Default view – Dropdown – Today, This Week, Upcoming
+2. Available views – Dropdown – Today, This Week, Upcoming
+3. Number of events — Input
+4. Orientation — Dropdown — vertical, horizontal
 
 If you want to learn more about using blocks in Moodle, please see https://docs.moodle.org/en/Blocks.
 
@@ -54,10 +51,10 @@ Plugin repositories
 -------------------
 
 This plugin will be published and regularly updated in the Moodle plugins repository:
-TBD
+https://moodle.org/plugins/block_timetable
 
 The latest development version can be found on Github:
-https://github.com/stefanscholz/moodle-block_timetable
+https://github.com/bdecentgmbh/moodle-block_timetable
 
 Bug and problem reports / Support requests
 ------------------------------------------
@@ -65,7 +62,7 @@ Bug and problem reports / Support requests
 This plugin is carefully developed and thoroughly tested, but bugs and problems can always appear.
 
 Please report bugs and problems on Github:
-https://github.com/stefanscholz/moodle-block_timetable/issues
+https://github.com/bdecentgmbh/moodle-block_timetable/issues
 
 We will do our best to solve your problems, but please note that due to limited resources we can't always provide per-case support.
 
@@ -74,10 +71,10 @@ Feature proposals
 -----------------
 
 Please issue feature proposals on Github:
-https://github.com/stefanscholz/moodle-block_timetable/issues
+https://github.com/bdecentgmbh/moodle-block_timetable/issues
 
 Please create pull requests on Github:
-https://github.com/stefanscholz/moodle-block_timetable/issues
+https://github.com/bdecentgmbh/moodle-block_timetable/issues
 
 We are always interested to read about your feature proposals or even get a pull request from you, but please accept that we can handle your issues only as feature _proposals_ and not as feature _requests_.
 
