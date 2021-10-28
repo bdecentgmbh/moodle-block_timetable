@@ -30,16 +30,16 @@
     }
 }}
 
-<div class="col-sm d-flex justify-content-end" id="yui_{{uniqid}}">
+<div class="d-flex justify-content-end mb-3" id="yui_{{uniqid}}">
   </div>
     <div class="events card-text content calendarwrapper"  data-context-id="{{defaulteventcontext}}" data-courseid="{{courseid}}" data-categoryid="{{categoryid}}">
-         
-    {{> block_timetable/event}}        
+
+    {{> block_timetable/event}}
 
     </div>
 {{#pagination}}
 <div>
-   
+
     {{#prev}}
         <a href="#" data-url="{{{prevurl}}}" data-mode="{{ulayout}}" class="timeblock{{instanceid}}" >
             <span aria-hidden="true">«</span>

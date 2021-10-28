@@ -73,6 +73,7 @@
     width: 100%;
     margin: 0;
     padding: 0;
+    clear: both;
 }
 
 .block_timetable .events {
@@ -89,7 +90,7 @@
 }
 
 .block_timetable .event-item {
-    margin: 5px 3px 10px 2px;
+    margin: 5px 0 10px 0;
     padding: 6px 8px 6px 12px;
     position: relative;
     box-shadow: 2px 2px 2px #ccc;
@@ -106,12 +107,13 @@
 }
 
 .block_timetable .footer {
-    margin-top: 12px;
-    padding: 12px 6px 0 6px;
+    clear: both;
+    margin-top: 6px;
+    padding: 6px 0;
     border-top: 1px solid #efefef;
 }
 
-.block_timetable .timetable.horizontal {
+.block_timetable .timetable.horizontal .events.calendarwrapper {
     overflow: auto;
     white-space: nowrap;
 }
@@ -123,6 +125,7 @@
     min-height: 150px;
     word-break: normal;
     white-space: normal;
+    margin: 5px 5px 10px 0;
 }
 
 .block_timetable .events .item.past {
@@ -134,14 +137,16 @@
     opacity: 1;
 }
 
+.block_timetable .timetable_calendar {
+    margin-top: 1rem;
+}
+
 .block_timetable .timetable_day {
     float: left;
-    width: 12%;
-    margin: 0 3px 0 3px;
+    width: calc(100%/7);
     text-align: center;
     background: #f2f2f2;
     color: #000;
-    font-weight: bold;
     border: 1px solid #f2f2f2;
 }
 
@@ -150,23 +155,30 @@
     text-transform: uppercase;
     font-size: 12px;
     text-decoration: none;
+    width: 100%;
+    display: block;
+    font-weight: bold;
 }
 
-.block_timetable .timetable_day.now {
+.block_timetable .timetable_day:hover,
+.block_timetable .timetable_day.now,
+.block_timetable .timetable_day.active {
     border: 1px solid #000;
 }
 
+.block_timetable .timetable_day:hover a,
 .block_timetable .timetable_day.active {
     background: #000;
     color: #fff;
 }
 
-.block_timetable .timetable_day.active a {
-    color: #fff;
-}
-
 .block_timetable .timetable_day.inactive a {
     color: #c1c1cb;
+}
+
+.block_timetable .timetable_day.inactive.active a,
+.block_timetable .timetable_day.active a {
+    color: #fff;
 }
 
 .block_timetable .timetable_day a:hover {
