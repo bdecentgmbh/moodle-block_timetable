@@ -31,16 +31,16 @@
     {
     }
 }}
- {{#events}}      
+ {{#events}}
 <div id="{{id}}_{{timestart}}" class="item event-item calendar_event_{{normalisedeventtype}} {{eventpast}}">
     <div
         class="event clearfix"
         data-eventtype-{{calendareventtype}}="1"
-        
+
         data-region="event-item"
     >
        <div class="card-text content calendarwrapper" >
-            {{#coursename}}<span class="coursename">{{coursename}}</span><br/>{{/coursename}}
+            {{#coursename}}<span class="coursename">{{{coursename}}}</span><br/>{{/coursename}}
             <span>{{#icon}}{{#pix}} {{key}}, {{component}}, {{alttext}} {{/pix}}{{/icon}}</span><a
                 data-type="event"
                 data-action="view-event"
@@ -49,7 +49,7 @@
                 class="timetable-event"
             >{{{name}}}</a><br/>
             {{{formattedtime}}}
-    
+
     </div>
     </div>
 </div>
