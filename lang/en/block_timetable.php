@@ -44,3 +44,4 @@ $string['second'] = 'Second';
 $string['time'] = 'Time';
 $string['courseevent'] = 'Course Event';
 $string['event'] = 'Event';
+$string['config_view'] = 'Available View';

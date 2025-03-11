@@ -49,7 +49,7 @@ class block_timetable_edit_form extends block_edit_form {
         'nextxday' => get_string('nextxday', 'block_timetable')
         );
         $mform->addElement('select', 'config_timetable', get_string('type', 'block_timetable'), $options);
-        $mform->addElement('header', 'first_header', 'Available View');
+        $mform->addElement('header', 'first_header',  get_string('config_view', 'block_timetable'));
         $mform->addElement('selectyesno', 'config_checkboxtoday', get_string('today', 'block_timetable'));
         $mform->setDefault('config_checkboxtoday', !empty($config->checkboxtoday) ? 1 : 0);
         $mform->addElement('selectyesno', 'config_checkboxthisweek', get_string('thisweek', 'block_timetable'));
