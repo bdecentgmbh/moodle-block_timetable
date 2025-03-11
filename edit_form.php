@@ -25,13 +25,14 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class block_timetable_edit_form extends block_edit_form {
-     /**
-      * Function that create a specific defination of form
-      * readable Object of mform
-      *
-      * @param object $mform
-      * @return object $mform
-      */
+    /**
+     * Function that create a specific defination of form
+     * readable Object of mform
+     *
+     * @param object $mform
+     * @return object $mform
+     * @throws coding_exception
+     */
     protected function specific_definition($mform) {
         $mform->addElement(
             'header',
@@ -48,7 +49,7 @@ class block_timetable_edit_form extends block_edit_form {
         'nextxday' => get_string('nextxday', 'block_timetable')
         );
         $mform->addElement('select', 'config_timetable', get_string('type', 'block_timetable'), $options);
-        $mform->addElement('header', null, 'Available View');
+        $mform->addElement('header', 'first_header', 'Available View');
         $mform->addElement('selectyesno', 'config_checkboxtoday', get_string('today', 'block_timetable'));
         $mform->setDefault('config_checkboxtoday', !empty($config->checkboxtoday) ? 1 : 0);
         $mform->addElement('selectyesno', 'config_checkboxthisweek', get_string('thisweek', 'block_timetable'));
