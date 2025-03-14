@@ -16,12 +16,14 @@
 
 namespace block_timetable\output;
 
+use context;
 use renderer_base;
 use renderable;
 use templatable;
 use html_writer;
 
 defined('MOODLE_INTERNAL') || die();
+
 /**
  * Timetable
  *
@@ -32,7 +34,8 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
  *
  */
-class eventlist implements templatable, renderable {
+class eventlist implements templatable, renderable
+{
     /**
      * @var int The number of days to look ahead.
      */
@@ -87,6 +90,7 @@ class eventlist implements templatable, renderable {
      * @var var The ulayout page.
      */
     public $ulayout;
+
     /**
      * Constructor.
      *
@@ -113,7 +117,8 @@ class eventlist implements templatable, renderable {
         $blockview,
         $time,
         $instanceid,
-        $ulayout) {
+        $ulayout)
+    {
         $this->lookahead = $lookahead;
         $this->courseid = $courseid;
         $this->lastid = $lastid;
@@ -133,7 +138,8 @@ class eventlist implements templatable, renderable {
      * @param \renderer_base $output
      * @return array
      */
-    public function export_for_template(renderer_base $output) {
+    public function export_for_template(renderer_base $output)
+    {
         $this->output = $output;
         $this->output->instanceid = $this->instanceid;
         $this->output->time = $this->time;
@@ -146,7 +152,7 @@ class eventlist implements templatable, renderable {
             $this->lastdate,
             $this->limitfrom,
             $this->limitnum
-            );
+        );
         $prev = false;
         $next = false;
         if ($this->page > 1) {
@@ -158,7 +164,7 @@ class eventlist implements templatable, renderable {
             // Add an 'later' link.
             $next = $this->page + 1;
         }
-        if ( $prev||$next ) {
+        if ($prev || $next) {
             $paginationobj = new pagination($prev, $next);
             $pagination = $paginationobj->export_for_template($this->output);
         } else {
@@ -174,7 +180,7 @@ class eventlist implements templatable, renderable {
             'blockview' => $this->blockview,
             'instanceid' => $this->instanceid,
             'ulayout' => $this->ulayout
-            ];
+        ];
     }
 
     /**
@@ -187,8 +193,9 @@ class eventlist implements templatable, renderable {
      * @param int $limitnum maximum number of events
      * @return stdClass
      */
-    public function get_view(\calendar_information $calendar, $lookahead, $lastdate = 0, $lastid = 0, $limitnum = 5) {
-        global $PAGE, $CFG , $USER;
+    public function get_view(\calendar_information $calendar, $lookahead, $lastdate = 0, $lastid = 0, $limitnum = 5)
+    {
+        global $PAGE, $CFG, $USER;
 
         $renderer = $PAGE->get_renderer('core_calendar');
         $type = \core_calendar\type_factory::get_calendar_instance();
@@ -211,7 +218,7 @@ class eventlist implements templatable, renderable {
         $date->modify('-1 second');
         $tend = $date->getTimestamp();
 
-        list($userparam, $groupparam, $courseparam, $categoryparam) = array_map(function($param) {
+        list($userparam, $groupparam, $courseparam, $categoryparam) = array_map(function ($param) {
             // If parameter is true, return null.
             if ($param === true) {
                 return null;
@@ -240,8 +247,8 @@ class eventlist implements templatable, renderable {
             $groupparam = [];
             $m = 0;
             foreach ($groups as $group) {
-                    $groupparam[$m] = $group->id;
-                    $m++;
+                $groupparam[$m] = $group->id;
+                $m++;
             }
             $categoryparam = array();
         }
@@ -305,7 +312,8 @@ class eventlist implements templatable, renderable {
         $lastid = 0,
         $lastdate = 0,
         $limitfrom = 0,
-        $limitnum = 5) {
+        $limitnum = 5)
+    {
         global $PAGE;
         $output = [];
         $more = false;
@@ -327,43 +335,43 @@ class eventlist implements templatable, renderable {
 
             $events = array_slice($events, $limitfrom, $limitnum);
             foreach ($events as $key => $event) {
-                if ( $event->categoryid == null ) {
+                if ($event->categoryid == null) {
                     $this->categoryid = 0;
                 } else {
                     $this->categoryid = $event->categoryid;
                 }
-                if ( $event->userid == null ) {
+                if ($event->userid == null) {
                     $this->defaulteventcontext = 0;
                 } else {
-                    $this->defaulteventcontext = $event->userid;
+                    $this->defaulteventcontext = \context_user::instance($event->userid)->id;
                 }
                 $courseid = isset($event->course->id) ? $event->course->id : 0;
                 $a = new \stdClass();
                 $a->name = $event->name;
                 if ($courseid && $courseid != SITEID) {
-                        $a->course = $this->get_course_displayname ($courseid);
-                        $event->description = get_string('courseevent', 'block_timetable', $a);
+                    $a->course = $this->get_course_displayname($courseid);
+                    $event->description = get_string('courseevent', 'block_timetable', $a);
                 } else {
-                        $event->description = get_string('event', 'block_timetable', $a);
+                    $event->description = get_string('event', 'block_timetable', $a);
                 }
                 $event->coursename = null;
-                if ( $event->eventtype == "category" ) {
+                if ($event->eventtype == "category") {
                     $event->coursename = $event->category->name;
-                } else if ( $event->eventtype == "user" ) {
+                } else if ($event->eventtype == "user") {
                     $event->coursename = $event->normalisedeventtypetext;
-                } else if ( $event->normalisedeventtype == "course" ) {
+                } else if ($event->normalisedeventtype == "course") {
                     $event->coursename = $event->course->fullname;
-                } else if ( $event->eventtype == "expectcompletionon" ) {
+                } else if ($event->eventtype == "expectcompletionon") {
                     $event->coursename = $event->course->fullname;
-                } else if ( $event->eventtype == "site" ) {
+                } else if ($event->eventtype == "site") {
                     $event->coursename = $event->normalisedeventtypetext;
-                } else if ( $event->eventtype == "group" ) {
+                } else if ($event->eventtype == "group") {
                     $event->coursename = $event->groupname;
                 } else {
                     $event->coursename = $event->normalisedeventtypetext;
                 }
                 $event->eventpast = "";
-                if ( time() >= $event->timestart ) {
+                if (time() >= $event->timestart) {
                     $event->eventpast = "past";
                 }
                 $output[] = $event;
@@ -376,10 +384,11 @@ class eventlist implements templatable, renderable {
     /**
      * Get the course display name
      *
-     * @param  int $courseid
+     * @param int $courseid
      * @return string
      */
-    public function get_course_displayname ($courseid) {
+    public function get_course_displayname($courseid)
+    {
         global $DB;
 
         if (!$courseid) {
