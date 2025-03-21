@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 namespace block_timetable\output;
 
 use renderer_base;
@@ -22,7 +21,6 @@ use renderable;
 use templatable;
 use stdClass;
 
-defined('MOODLE_INTERNAL') || die();
 /**
  * Timetable
  *
@@ -30,8 +28,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package    block_timetable
  * @copyright  2021 bdecent gmbh <https://bdecent.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
- *
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class main implements templatable, renderable {
     /**
@@ -76,6 +73,15 @@ class main implements templatable, renderable {
      * @var int The instance id page.
      */
     public $instanceid;
+    /**
+     * @var string The blockview.
+     */
+    public $blockview;
+    /**
+     * @var string layout of current event
+     */
+    public $ulayout;
+
     /**
      * Constructor.
      *

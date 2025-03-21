@@ -14,10 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 namespace block_timetable\output;
-
-defined('MOODLE_INTERNAL') || die;
 
 use plugin_renderer_base;
 use renderable;
@@ -29,10 +26,28 @@ use stdClass;
  *
  * @package    block_timetable
  * @copyright  2021 bdecent gmbh <https://bdecent.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
- *
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class renderer extends plugin_renderer_base {
+    /**
+     * @var int instanceid.
+     */
+    public $instanceid;
+
+    /**
+     * @var int courseid.
+     */
+    public $courseid;
+
+    /**
+     * @var int time.
+     */
+    public $time;
+
+    /**
+     * @var string ulayout.
+     */
+    public $ulayout;
 
     /**
      * Return the main content for the block timetable.

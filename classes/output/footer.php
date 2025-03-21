@@ -21,7 +21,6 @@ use renderable;
 use templatable;
 use stdClass;
 
-defined('MOODLE_INTERNAL') || die();
 /**
  * Timetable
  *
@@ -29,8 +28,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package    block_timetable
  * @copyright  2021 bdecent gmbh <https://bdecent.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
- *
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class footer implements templatable, renderable {
     /**

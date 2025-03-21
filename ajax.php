@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * Timetable
  *
@@ -20,8 +21,7 @@
  *
  * @package    block_timetable
  * @copyright  2021 bdecent gmbh <https://bdecent.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
- *
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 define('AJAX_SCRIPT', true);
@@ -38,8 +38,17 @@ $courseid = optional_param('courseid', $COURSE->id, PARAM_INT);
 $instanceid = required_param('instanceid', PARAM_INT);
 $ulayout = required_param('ulayout', PARAM_RAW);
 $context = context_block::instance($instanceid);
-$instance = $DB->get_record_sql('select * from {block_instances} where id=?', array($instanceid));
-$config = unserialize(base64_decode($instance->configdata));
+$instance = $DB->get_record('block_instances', ['id' => $instanceid]);
+
+if (!empty($instanceid)) {
+    if (!empty($instance->configdata)) {
+        $config = unserialize(base64_decode($instance->configdata));
+    } else {
+        $config = new \stdClass();
+        $config->view = 'vertical';
+    }
+}
+
 if ( $ulayout == "nextxday" ) {
     if (isloggedin()) {
         $maxevents = get_user_preferences('calendar_maxevents', 10);
@@ -51,6 +60,7 @@ if ( $ulayout == "nextxday" ) {
 } else {
         $lookahead = true;
 }
+
 $list = '';
 $end = false;
 $limitnum = $config->limit;
@@ -58,9 +68,7 @@ $limitfrom = $page > 1 ? ($page * $limitnum) - $limitnum : 0;
 $lastdate = 0;
 $lastid = 0;
 $renderer = $PAGE->get_renderer('block_timetable');
-if (empty($config->view)) {
-    $config->view = 'vertical';
-}
+
 $blockview = $config->view;
 $events = new eventlist(
     $lookahead,

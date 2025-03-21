@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 namespace block_timetable\output;
 
 use renderer_base;
@@ -21,7 +22,6 @@ use templatable;
 use stdClass;
 use moodle_url;
 
-defined('MOODLE_INTERNAL') || die();
 /**
  * Timetable
  *
@@ -29,8 +29,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package    block_timetable
  * @copyright  2021 bdecent gmbh <https://bdecent.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
- *
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class pagination implements templatable, renderable {
     /**
@@ -78,8 +77,9 @@ class pagination implements templatable, renderable {
      * @param int $courseid course id
      * @return stdClass
      */
-    public function get_pagination($prev = false, $next = false, $instanceid, $time , $ulayout , $courseid) {
-        global $PAGE , $CFG;
+    public function get_pagination($prev = false, $next = false, $instanceid = null, $time = null,
+        $ulayout = '', $courseid = null) {
+        global $CFG;
 
         $pagination = new stdClass();
 
