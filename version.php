@@ -27,6 +27,6 @@ defined('MOODLE_INTERNAL') || die();
 $plugin->version   = 2025032100;        // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires  = 2020061500;        // Requires this Moodle version.
 $plugin->component = 'block_timetable'; // Full name of the plugin (used for diagnostics).
-$plugin->maturity = MATURITY_RC;        // This is considered as not ready for production sites.
+$plugin->maturity = MATURITY_STABLE;        // This is considered as not ready for production sites.
 $plugin->supported = [39, 405];         // This is version of moodle.
 $plugin->release = '1.0';               // This is our first revision for Moodle 3.9.x branch.
