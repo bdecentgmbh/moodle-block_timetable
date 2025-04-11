@@ -14,9 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Form for editing Timeline block instances.
  *
@@ -42,13 +39,13 @@ class block_timetable_edit_form extends block_edit_form {
             )
         );
 
-        $options = array(
+        $options = [
         'today' => get_string('today', 'block_timetable'),
         'thisweek' => get_string('thisweek', 'block_timetable'),
-        'nextxday' => get_string('nextxday', 'block_timetable')
-        );
+        'nextxday' => get_string('nextxday', 'block_timetable'),
+        ];
         $mform->addElement('select', 'config_timetable', get_string('type', 'block_timetable'), $options);
-        $mform->addElement('header', null, 'Available View');
+        $mform->addElement('header', '', 'Available View');
         $mform->addElement('selectyesno', 'config_checkboxtoday', get_string('today', 'block_timetable'));
         $mform->setDefault('config_checkboxtoday', !empty($config->checkboxtoday) ? 1 : 0);
         $mform->addElement('selectyesno', 'config_checkboxthisweek', get_string('thisweek', 'block_timetable'));
@@ -62,10 +59,10 @@ class block_timetable_edit_form extends block_edit_form {
         } else {
             $mform->setDefault('config_limit', 5);
         }
-        $options = array(
+        $options = [
         'vertical' => get_string('vertical', 'block_timetable'),
         'horizontal' => get_string('horizontal', 'block_timetable'),
-        );
+        ];
 
         $mform->addElement('select', 'config_view', get_string('view', 'block_timetable'), $options);
     }

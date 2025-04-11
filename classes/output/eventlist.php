@@ -21,7 +21,6 @@ use renderable;
 use templatable;
 use html_writer;
 
-defined('MOODLE_INTERNAL') || die();
 /**
  * Timetable
  *
@@ -29,8 +28,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package    block_timetable
  * @copyright  2021 bdecent gmbh <https://bdecent.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
- *
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class eventlist implements templatable, renderable {
     /**
@@ -84,9 +82,18 @@ class eventlist implements templatable, renderable {
      */
     public $instanceid;
     /**
-     * @var var The ulayout page.
+     * @var string The ulayout page.
      */
     public $ulayout;
+    /**
+     * @var \renderer_base The renderer.
+     */
+    public $output;
+    /**
+     * @var string The blockview.
+     */
+    public $blockview;
+
     /**
      * Constructor.
      *
@@ -173,7 +180,7 @@ class eventlist implements templatable, renderable {
             'more' => $more,
             'blockview' => $this->blockview,
             'instanceid' => $this->instanceid,
-            'ulayout' => $this->ulayout
+            'ulayout' => $this->ulayout,
             ];
     }
 
@@ -243,7 +250,7 @@ class eventlist implements templatable, renderable {
                     $groupparam[$m] = $group->id;
                     $m++;
             }
-            $categoryparam = array();
+            $categoryparam = [];
         }
         $events = \core_calendar\local\api::get_events(
             $tstart,
@@ -379,7 +386,7 @@ class eventlist implements templatable, renderable {
      * @param  int $courseid
      * @return string
      */
-    public function get_course_displayname ($courseid) {
+    public function get_course_displayname($courseid) {
         global $DB;
 
         if (!$courseid) {

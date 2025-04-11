@@ -22,8 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * block_timetable  block instances.
  *
@@ -62,7 +60,7 @@ class block_timetable extends block_base {
       * @return array
       */
     public function applicable_formats() {
-        return array('all' => true);
+        return ['all' => true];
     }
      /**
       * Return the applicable format.
