@@ -21,6 +21,9 @@
  * @copyright  2021 bdecent gmbh <https://bdecent.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+require_once($CFG->dirroot . '/blocks/timetable/lib.php');
+
 class block_timetable_edit_form extends block_edit_form {
      /**
       * Function that create a specific defination of form
@@ -65,5 +68,10 @@ class block_timetable_edit_form extends block_edit_form {
         ];
 
         $mform->addElement('select', 'config_view', get_string('view', 'block_timetable'), $options);
+
+        if (timetable_tool_installed()) {
+            $timetable = new \tool_timetable\blocktimetable();
+            $timetable->blocktimetable_form_fields($mform);
+        }
     }
 }

@@ -22,6 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+require_once($CFG->dirroot . '/blocks/timetable/lib.php');
+
 /**
  * block_timetable  block instances.
  *
@@ -250,9 +252,27 @@ class block_timetable extends block_base {
                 }
                 $this->content->text .= "</div>";
             }
-            $this->content->text .= $renderer->render($renderable);
-            $renderable = new \block_timetable\output\footer($courseid);
-            $this->content->footer .= $renderer->render($renderable);
+
+            if (timetable_tool_installed()) {
+
+                $timetable = new \tool_timetable\blocktimetable();
+                $content = $timetable->timetable_content($this->config, $this->page->context, $this->context->instanceid,
+                    $courseid, $renderer, $renderable);
+                $showevents = isset($this->config->showevents) && $this->config->showevents != 0;
+
+                if ($showevents) {
+                    $this->content->text .= $content['text'];
+                } else {
+                    $this->content->text = $content['text'];
+                }
+
+                $this->content->footer .= $content['footer'];
+
+            } else {
+                $this->content->text .= $renderer->render($renderable);
+                $renderable = new \block_timetable\output\footer($courseid);
+                $this->content->footer .= $renderer->render($renderable);
+            }
         }
         return $this->content;
     }
