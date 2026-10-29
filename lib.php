@@ -26,7 +26,7 @@
  * The block content for another view, day or page, loaded by block_timetable/main.
  *
  * The fragment API has validated the block context already. The events are always the current user's, filtered as in
- * the calendar; the course is checked like a course page would check it.
+ * the calendar; the course is checked like require_login() on a course page, with an active enrolment.
  *
  * @param array $args The block context, and courseid, view, time and page
  * @return string HTML
@@ -45,8 +45,8 @@ function block_timetable_output_fragment_content(array $args): string {
     require_capability('moodle/block:view', $context);
 
     $courseid = clean_param($args['courseid'] ?? SITEID, PARAM_INT);
-    if ($courseid != SITEID && !can_access_course(get_course($courseid))) {
-        throw new require_login_exception('Course not accessible');
+    if ($courseid != SITEID && !can_access_course(get_course($courseid), null, '', true)) {
+        throw new require_login_exception('');
     }
 
     $main = new \block_timetable\output\main(

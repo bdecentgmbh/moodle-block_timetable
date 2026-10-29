@@ -102,6 +102,41 @@ final class lib_test extends \advanced_testcase {
     }
 
     /**
+     * Enrolments that are not active.
+     *
+     * @return array
+     */
+    public static function inactive_enrolment_provider(): array {
+        return [
+            'suspended' => [['status' => ENROL_USER_SUSPENDED]],
+            'ended' => [['timeend' => time() - DAYSECS]],
+            'not started' => [['timestart' => time() + DAYSECS]],
+        ];
+    }
+
+    /**
+     * Like a course page, the fragment needs an active enrolment.
+     *
+     * @dataProvider inactive_enrolment_provider
+     * @param array $enrolment Status, start and end of the enrolment
+     */
+    public function test_enrolment_not_active(array $enrolment): void {
+        $other = $this->getDataGenerator()->create_course();
+        $this->getDataGenerator()->enrol_user(
+            $this->student->id,
+            $other->id,
+            'student',
+            'manual',
+            $enrolment['timestart'] ?? 0,
+            $enrolment['timeend'] ?? 0,
+            $enrolment['status'] ?? ENROL_USER_ACTIVE
+        );
+        $this->setUser($this->student);
+        $this->expectException(\require_login_exception::class);
+        $this->fragment(\context_block::instance($this->block->id), $other->id);
+    }
+
+    /**
      * Only the context of a Timetable block is accepted.
      */
     public function test_other_context(): void {

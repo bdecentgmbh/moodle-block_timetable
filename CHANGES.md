@@ -5,8 +5,8 @@
 - Moodle 4.5 to 5.3; Moodle 4.5 is now the minimum.
 - Security: switching views, days or pages loaded the events of any course given in the request, and in a
   course every user saw the events of all its groups. The block now loads them through Moodle's fragment API,
-  checks the block, `moodle/block:view` and the user's access to the course, and shows group events to the
-  members of the group only, as the calendar does.
+  checks the block, `moodle/block:view` and the user's access to the course with an active enrolment, and shows
+  group events to the members of the group only, as the calendar does.
 - Fixed: in "This week", selecting a day showed today's events in languages other than English (#14, #6), and
   today was not highlighted in such languages and in right-to-left languages (#4, #5).
 - Fixed: days followed the server's timezone instead of the user's, so events could show on the wrong day (#3).

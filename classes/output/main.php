@@ -45,6 +45,9 @@ class main implements renderable, templatable {
     /** @var int Most events per page. */
     public const MAX_LIMIT = 50;
 
+    /** @var int Most pages. */
+    public const MAX_PAGES = 100;
+
     /** @var stdClass The block configuration. */
     protected stdClass $config;
 
@@ -86,7 +89,7 @@ class main implements renderable, templatable {
         $this->courseid = $courseid;
         $this->view = in_array($view, $this->get_views(), true) ? $view : $this->get_default_view();
         $this->day = usergetmidnight($time ?: time());
-        $this->page = max(1, $page);
+        $this->page = max(1, min($page, self::MAX_PAGES));
     }
 
     /**
@@ -172,6 +175,8 @@ class main implements renderable, templatable {
             $event->ended = $event->timestart + $event->timeduration < time();
         }
 
+        // Switching views, days and pages needs a login, as the fragment API does.
+        $interactive = isloggedin();
         $views = [];
         foreach ($this->get_views() as $view) {
             $views[] = ['view' => $view, 'name' => get_string($view, 'block_timetable'), 'active' => $view === $this->view];
@@ -185,12 +190,13 @@ class main implements renderable, templatable {
             'view' => $this->view,
             'time' => $this->day,
             'horizontal' => ($this->config->view ?? '') === 'horizontal',
-            'showviews' => count($views) > 1,
+            'interactive' => $interactive,
+            'showviews' => $interactive && count($views) > 1,
             'views' => $views,
-            'showdays' => $this->view === 'thisweek',
+            'showdays' => $interactive && $this->view === 'thisweek',
             'days' => $this->view === 'thisweek' ? $this->get_days() : [],
             'events' => $exported->events,
-            'showpagination' => $this->page > 1 || $more,
+            'showpagination' => $interactive && ($this->page > 1 || $more),
             'previous' => $this->page > 1 ? $this->page - 1 : 0,
             'next' => $more ? $this->page + 1 : 0,
         ];

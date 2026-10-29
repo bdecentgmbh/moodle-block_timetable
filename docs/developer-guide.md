@@ -17,7 +17,8 @@ For developers who create Timetable blocks in code, theme them or extend them.
 - Switching view, day or page calls the fragment `block_timetable_output_fragment_content()` from the AMD
   module `block_timetable/main` with `courseid`, `view`, `time` and `page`. The fragment API validates the block
   context; the callback checks that it is a Timetable block, `moodle/block:view` in the block context and
-  `can_access_course()` for the course. It renders `block_timetable/content`.
+  `can_access_course()` with an active enrolment for the course, as `require_login()` would. It renders
+  `block_timetable/content`. The fragment API needs a login, so visitors who are not logged in get no buttons.
 
 ## Settings
 

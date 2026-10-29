@@ -31,6 +31,7 @@
         "view": "today",
         "time": 1761688800,
         "horizontal": false,
+        "interactive": true,
         "showviews": true,
         "views": [
             {"view": "today", "name": "Today", "active": true},
@@ -58,8 +59,10 @@
 <div class="block-timetable" data-region="block_timetable" data-instanceid="{{instanceid}}" data-contextid="{{contextid}}" data-courseid="{{courseid}}">
     {{> block_timetable/content }}
 </div>
+{{#interactive}}
 {{#js}}
 require(['block_timetable/main'], function(Main) {
     Main.init({{instanceid}});
 });
 {{/js}}
+{{/interactive}}

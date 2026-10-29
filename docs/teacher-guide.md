@@ -54,4 +54,6 @@ are left on the Dashboard:
 Events of hidden activities are not shown, also not to teachers, as in the calendar. Every user only sees the
 events they are allowed to see.
 
+Visitors who are not logged in, for example on the site home, see the default view without the buttons.
+
 The footer links to the calendar and, for users who can manage calendar entries, to a new event.

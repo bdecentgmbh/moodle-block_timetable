@@ -135,6 +135,23 @@ final class main_test extends \advanced_testcase {
     }
 
     /**
+     * Visitors who are not logged in cannot switch views, days or pages, which needs a login.
+     */
+    public function test_not_logged_in(): void {
+        $block = $this->create_block(\context_system::instance(), ['timetable' => 'thisweek', 'checkboxtoday' => 1]);
+        $data = $this->export($block, SITEID);
+        $this->assertFalse($data['interactive']);
+        $this->assertFalse($data['showviews']);
+        $this->assertFalse($data['showdays']);
+
+        $this->setAdminUser();
+        $data = $this->export($block, SITEID);
+        $this->assertTrue($data['interactive']);
+        $this->assertTrue($data['showviews']);
+        $this->assertTrue($data['showdays']);
+    }
+
+    /**
      * Events per page.
      */
     public function test_limit(): void {
@@ -255,6 +272,9 @@ final class main_test extends \advanced_testcase {
         $data = $this->export($block, $course->id, 'today', 0, 3);
         $this->assertSame(['Event 5'], $this->names($data));
         $this->assertSame([2, 0], [$data['previous'], $data['next']]);
+
+        $data = $this->export($block, $course->id, 'today', 0, 1000);
+        $this->assertSame(main::MAX_PAGES - 1, $data['previous'], 'Pages are capped.');
 
         $block = $this->create_block(\context_course::instance($course->id), ['limit' => 5]);
         $this->assertFalse($this->export($block, $course->id)['showpagination']);
