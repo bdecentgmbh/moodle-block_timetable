@@ -1,14 +1,78 @@
-.block_timetable .events {
-    list-style: none;
+.block_timetable .timetable-days {
+    gap: 2px;
+}
+
+.block_timetable .timetable-day {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 2px 0;
+    border: 1px solid #f2f2f2;
+    background: #f2f2f2;
+    color: #000;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.block_timetable .timetable-day.past {
+    color: #6a737b;
+}
+
+.block_timetable .timetable-day.today,
+.block_timetable .timetable-day:hover,
+.block_timetable .timetable-day:focus {
+    border-color: #000;
+}
+
+.block_timetable .timetable-day.active,
+.block_timetable .timetable-day:hover {
+    background: #000;
+    color: #fff;
+}
+
+.block_timetable .event-item {
+    margin: 5px 0 10px 0;
+    padding: 6px 8px 6px 12px;
+    border-left: 5px solid #ced4da;
+    background-color: #f3f4f6;
+    box-shadow: 2px 2px 2px #ccc;
+}
+
+.block_timetable .event-item .source {
+    text-transform: uppercase;
+    letter-spacing: .51px;
+    font-weight: 600;
+    font-size: small;
 }
 
 .block_timetable .timetable-event {
     font-weight: 600;
 }
 
+.block_timetable .event-item.ended {
+    opacity: .5;
+    transition: opacity .2s;
+}
+
+.block_timetable .event-item.ended:hover,
+.block_timetable .event-item.ended:focus-within {
+    opacity: 1;
+}
+
+.block_timetable .timetable.horizontal {
+    display: flex;
+    gap: 5px;
+    overflow-x: auto;
+}
+
+.block_timetable .timetable.horizontal .event-item {
+    flex: 0 0 200px;
+    min-height: 150px;
+}
+
 .block_timetable .calendar_event_site {
     background-color: #f4fdf2;
-    border-left: 5px solid #9cff83;
+    border-left-color: #9cff83;
 }
 
 .block_timetable .calendar_event_site,
@@ -18,169 +82,40 @@
 
 .block_timetable .calendar_event_category {
     background-color: #f5eff5;
-    border-left: 5px solid #e0cbe0;
+    border-left-color: #e0cbe0;
 }
 
-.block_timetable .calendar_event_category .timetable-event,
+.block_timetable .calendar_event_category,
 .block_timetable .calendar_event_category a {
     color: #4e254e;
 }
 
-.block_timetable .calendar_event_course .timetable-event,
+.block_timetable .calendar_event_course {
+    background-color: #fff5ee;
+    border-left-color: #facfb9;
+}
+
+.block_timetable .calendar_event_course,
 .block_timetable .calendar_event_course a {
     color: #381400;
 }
 
-.block_timetable .calendar_event_course {
-    background-color: #fff5ee;
-    border-left: 5px solid #facfb9;
-    color: #381400;
-}
-
-.block_timetable .calendar_event_user .timetable-event,
-.block_timetable .calendar_event_user a {
-    color: #3e576f;
-}
-
 .block_timetable .calendar_event_group {
     background-color: #f2eee3;
-    border-left: 5px solid #fee7ae;
-    color: #684b05;
+    border-left-color: #fee7ae;
 }
 
-.block_timetable .calendar_event_group .timetable-event,
+.block_timetable .calendar_event_group,
 .block_timetable .calendar_event_group a {
     color: #684b05;
 }
 
-.block_timetable .calendar_event_user {
-    background-color: #f3f4f6;
-    border-left: 5px solid #ced4da;
+.block_timetable .calendar_event_user,
+.block_timetable .calendar_event_user a {
+    color: #3e576f;
 }
 
 .block_timetable .calendar_event_other {
     background-color: #ced4da;
-    border-left: 5px solid #6c6c6c;
-}
-
-.block_timetable .content {
-    position: relative;
-    padding: 0;
-    margin: 0;
-}
-
-.block_timetable .timetable {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    clear: both;
-}
-
-.block_timetable .events {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.block_timetable .events .coursename {
-    text-transform: uppercase;
-    letter-spacing: .51px;
-    font-weight: 600;
-    font-size: small;
-}
-
-.block_timetable .event-item {
-    margin: 5px 0 10px 0;
-    padding: 6px 8px 6px 12px;
-    position: relative;
-    box-shadow: 2px 2px 2px #ccc;
-}
-
-.block_timetable .event,
-.block_timetable .meta {
-    display: flex;
-    width: 100%;
-}
-
-.block_timetable hr {
-    margin: 5px 0;
-}
-
-.block_timetable .footer {
-    clear: both;
-    margin-top: 6px;
-    padding: 6px 0;
-    border-top: 1px solid #efefef;
-}
-
-.block_timetable .timetable.horizontal .events.calendarwrapper {
-    overflow: auto;
-    white-space: nowrap;
-}
-
-.block_timetable .timetable.horizontal .events .event-item {
-    display: inline-block;
-    text-decoration: none;
-    width: 200px;
-    min-height: 150px;
-    word-break: normal;
-    white-space: normal;
-    margin: 5px 5px 10px 0;
-}
-
-.block_timetable .events .item.past {
-    opacity: 0.4;
-    transition: opacity .2s;
-}
-
-.block_timetable .events .item.past:hover {
-    opacity: 1;
-}
-
-.block_timetable .timetable_calendar {
-    margin-top: 1rem;
-}
-
-.block_timetable .timetable_day {
-    float: left;
-    width: calc(100% / 7);
-    text-align: center;
-    background: #f2f2f2;
-    color: #000;
-    border: 1px solid #f2f2f2;
-}
-
-.block_timetable .timetable_day a {
-    color: #000;
-    text-transform: uppercase;
-    font-size: 12px;
-    text-decoration: none;
-    width: 100%;
-    display: block;
-    font-weight: bold;
-}
-
-.block_timetable .timetable_day:hover,
-.block_timetable .timetable_day.now,
-.block_timetable .timetable_day.active {
-    border: 1px solid #000;
-}
-
-.block_timetable .timetable_day:hover a,
-.block_timetable .timetable_day.active {
-    background: #000;
-    color: #fff;
-}
-
-.block_timetable .timetable_day.inactive a {
-    color: #c1c1cb;
-}
-
-.block_timetable .timetable_day.inactive.active a,
-.block_timetable .timetable_day.active a {
-    color: #fff;
-}
-
-.block_timetable .timetable_day a:hover {
-    text-decoration: none;
+    border-left-color: #6c6c6c;
 }

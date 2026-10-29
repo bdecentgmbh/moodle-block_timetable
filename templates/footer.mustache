@@ -15,30 +15,24 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @templateblock_timetable/footer
-	
-    The purpose of this template is to render the footer.
+    @template block_timetable/footer
 
-    Classes required for JS:
-    * none
-
-    Data attributes required for JS:
-    * none
+    The footer of a Timetable block: links to a new event and to the calendar.
 
     Example context (json):
     {
+        "footer": {
+            "manageentries": true,
+            "addeventurl": "https://example.com/calendar/event.php?action=new&course=1",
+            "calendarurl": "https://example.com/calendar/view.php?view=upcoming&course=1"
+        }
     }
 }}
-
 {{#footer}}
-{{#manageentries}}
-<a href="{{{addeventurl}}}">
-	{{#pix }} t/add, core {{/pix }}
-	{{#str}} newevent, calendar {{/str}}
-</a>
-{{/manageentries}}
-<a class="pull-right" href="{{{calendarurl}}}">
-	{{#pix }} i/calendar, core {{/pix }}
-	{{#str}} gotocalendar, calendar {{/str}}
-</a>
+<div class="d-flex flex-wrap">
+    {{#manageentries}}
+    <a href="{{addeventurl}}">{{#pix}} t/add, core {{/pix}}{{#str}} newevent, calendar {{/str}}</a>
+    {{/manageentries}}
+    <a class="ml-auto ms-auto" href="{{calendarurl}}">{{#pix}} i/calendar, core {{/pix}}{{#str}} gotocalendar, calendar {{/str}}</a>
+</div>
 {{/footer}}
