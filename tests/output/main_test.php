@@ -182,11 +182,13 @@ final class main_test extends \advanced_testcase {
 
         $block = $this->create_block(\context_system::instance());
         $sources = array_column($this->export($block, SITEID)['events'], 'source', 'name');
+        // Escaped once: decoding once gives the name. Moodle versions differ in the entity (&amp; or &#38;).
         $this->assertSame([
-            'Lecture' => 'Maths &amp; Physics',
-            'Tutorial' => 'Group A &amp; B',
+            'Lecture' => 'Maths & Physics',
+            'Tutorial' => 'Group A & B',
             'Open day' => get_string('typesite', 'calendar'),
-        ], $sources);
+        ], array_map(fn($source) => html_entity_decode($source, ENT_QUOTES | ENT_HTML5), $sources));
+        $this->assertStringNotContainsString('&', str_replace(['&amp;', '&#38;'], '', $sources['Lecture']));
     }
 
     /**
