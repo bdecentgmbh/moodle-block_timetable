@@ -25,7 +25,7 @@ Open the block's actions menu and select **Configure Timetable block**.
 | --- | --- |
 | **Default view** | The view the block shows first: *Today*, *This week* or *Upcoming*. |
 | **Views to switch between** | The views users can switch to with the buttons at the top of the block. The default view is always offered. With only one view, there are no buttons. |
-| **Events per page** | How many events the block shows at a time, from 1 to 50 (default 5). When there are more, users page through them with *Previous events* and *Next events*. |
+| **Events per page** | How many events the block shows at a time, from 1 to 50 (default 5). When there are more, users page through them with *Previous events* and *Next events*, up to 200 events. |
 | **Orientation** | *Vertical* lists the events below each other. *Horizontal* shows them as cards side by side, which suits wide regions. |
 
 You can add several Timetable blocks with different settings, for example *Today* in one block and

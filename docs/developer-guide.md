@@ -28,7 +28,7 @@ The block instance's `configdata` holds:
 | --- | --- |
 | `timetable` | Default view: `today`, `thisweek` or `nextxday` (Upcoming) |
 | `checkboxtoday`, `checkboxthisweek`, `checkboxnextxday` | `1` when the view is offered. If `timetable` is not set, all views are offered. |
-| `limit` | Events per page, 1 to 50 (`main::MAX_LIMIT`); empty or 0 is 5 |
+| `limit` | Events per page, 1 to 50 (`main::MAX_LIMIT`); empty or 0 is 5. Paging stops after 200 events (`main::MAX_EVENTS`). |
 | `view` | Orientation: `vertical` or `horizontal` |
 
 In tests, the data generator takes these keys as fields of the record:

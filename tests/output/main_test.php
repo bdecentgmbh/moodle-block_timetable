@@ -275,11 +275,23 @@ final class main_test extends \advanced_testcase {
         $this->assertSame(['Event 5'], $this->names($data));
         $this->assertSame([2, 0], [$data['previous'], $data['next']]);
 
-        $data = $this->export($block, $course->id, 'today', 0, 1000);
-        $this->assertSame(main::MAX_PAGES - 1, $data['previous'], 'Pages are capped.');
-
         $block = $this->create_block(\context_course::instance($course->id), ['limit' => 5]);
         $this->assertFalse($this->export($block, $course->id)['showpagination']);
+
+        // Paging stops after main::MAX_EVENTS events: with 50 per page, page 4 is the last.
+        for ($i = 6; $i <= main::MAX_EVENTS + 1; $i++) {
+            $generator->create_event(['name' => "Event $i", 'eventtype' => 'course', 'courseid' => $course->id,
+                'timestart' => $noon + $i * MINSECS]);
+        }
+        $block = $this->create_block(\context_course::instance($course->id), ['limit' => 3]);
+        $data = $this->export($block, $course->id, 'today', 0, 67);
+        $this->assertSame(['Event 199', 'Event 200'], $this->names($data));
+        $this->assertSame([66, 0], [$data['previous'], $data['next']]);
+        $block = $this->create_block(\context_course::instance($course->id), ['limit' => 50]);
+        $data = $this->export($block, $course->id, 'today', 0, 1000);
+        $this->assertCount(50, $this->names($data));
+        $this->assertSame('Event 200', $this->names($data)[49]);
+        $this->assertSame([3, 0], [$data['previous'], $data['next']]);
     }
 
     /**

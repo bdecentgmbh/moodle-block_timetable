@@ -45,8 +45,8 @@ class main implements renderable, templatable {
     /** @var int Most events per page. */
     public const MAX_LIMIT = 50;
 
-    /** @var int Most pages. */
-    public const MAX_PAGES = 100;
+    /** @var int Most events to page through. */
+    public const MAX_EVENTS = 200;
 
     /** @var stdClass The block configuration. */
     protected stdClass $config;
@@ -89,7 +89,7 @@ class main implements renderable, templatable {
         $this->courseid = $courseid;
         $this->view = in_array($view, $this->get_views(), true) ? $view : $this->get_default_view();
         $this->day = usergetmidnight($time ?: time());
-        $this->page = max(1, min($page, self::MAX_PAGES));
+        $this->page = max(1, min($page, (int) ceil(self::MAX_EVENTS / $this->get_limit())));
     }
 
     /**
@@ -158,10 +158,11 @@ class main implements renderable, templatable {
 
         [$from, $to] = $this->get_timespan();
         $limitfrom = ($this->page - 1) * $this->get_limit();
+        $limitto = min($limitfrom + $this->get_limit(), self::MAX_EVENTS);
         $calendar = \calendar_information::create($from, $this->courseid);
-        $events = $this->get_events($calendar, $from, $to, $limitfrom + $this->get_limit() + 1);
-        $more = count($events) > $limitfrom + $this->get_limit();
-        $events = array_slice($events, $limitfrom, $this->get_limit());
+        $events = $this->get_events($calendar, $from, $to, $limitto + 1);
+        $more = count($events) > $limitto && $limitto < self::MAX_EVENTS;
+        $events = array_slice($events, $limitfrom, $limitto - $limitfrom);
 
         $related = [
             'events' => $events,

@@ -14,7 +14,7 @@
 - Fixed: names with an ampersand showed as `&amp;` (#7, #10; thanks to guillogo for #8).
 - Fixed: editing an event from its details failed with "invalidparameter: categoryid" (#9). After an event is
   added, edited or deleted, the block reloads its events.
-- "Previous events" and "Next events" for paging (#2).
+- "Previous events" and "Next events" for paging, up to 200 events (#2).
 - Views and days are buttons that work with the keyboard and screen readers, and on Bootstrap 5.
 - Settings: proper labels and help (thanks to jrangelardila for #12), the views to switch between as
   checkboxes, events per page from 1 to 50. Blocks whose settings were never saved offer all views.

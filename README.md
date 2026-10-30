@@ -44,7 +44,7 @@ The block has the following settings:
 
 1. Default view – Today, This week or Upcoming
 2. Views to switch between – any of the three views; the default view is always offered
-3. Events per page – 1 to 50, default 5; users page through more events
+3. Events per page – 1 to 50, default 5; users page through up to 200 events
 4. Orientation – vertical (a list) or horizontal (cards side by side)
 
 Several Timetable blocks with different settings can be added to one page.
