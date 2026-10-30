@@ -14,48 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace block_timetable\output;
+namespace block_timetable\privacy;
 
-use plugin_renderer_base;
-use renderable;
-use stdClass;
 /**
- * Timetable
- *
- * Timetable renderer.
+ * Tests of the privacy provider of the Timetable block.
  *
  * @package    block_timetable
+ * @category   test
  * @copyright  2021 bdecent gmbh <https://bdecent.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @covers     \block_timetable\privacy\provider
  */
-class renderer extends plugin_renderer_base {
+final class provider_test extends \core_privacy\tests\provider_testcase {
     /**
-     * @var int instanceid.
+     * The block stores no personal data and says so.
      */
-    public $instanceid;
-
-    /**
-     * @var int courseid.
-     */
-    public $courseid;
-
-    /**
-     * @var int time.
-     */
-    public $time;
-
-    /**
-     * @var string ulayout.
-     */
-    public $ulayout;
-
-    /**
-     * Return the main content for the block timetable.
-     *
-     * @param main $main The main renderable
-     * @return string HTML string
-     */
-    public function render_main(main $main) {
-        return $this->render_from_template('block_timetable/main', $main->export_for_template($this));
+    public function test_get_reason(): void {
+        $this->assertInstanceOf(\core_privacy\local\metadata\null_provider::class, new provider());
+        $this->assertTrue(get_string_manager()->string_exists(provider::get_reason(), 'block_timetable'));
     }
 }

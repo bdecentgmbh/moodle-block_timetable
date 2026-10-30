@@ -15,45 +15,30 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-   @templateblock_timetable/event
+    @template block_timetable/event
 
-    Event view for blocks.
-
-    The purpose of this template is to render the timetbale view for blocks.
-
-    Classes required for JS:
-    * none
+    One event of a Timetable block, exported by the calendar (core_calendar\external\event_exporter).
+    The name, source and formatted time are formatted by the calendar's exporters.
 
     Data attributes required for JS:
-    * none
+    * data-action="view-event" and data-event-id: core_calendar/view_manager shows the event summary
 
     Example context (json):
     {
+        "id": 7,
+        "name": "Assignment 1 is due",
+        "formattedtime": "Today, 17:00",
+        "viewurl": "https://example.com/calendar/view.php?view=day&time=1761750000#event_7",
+        "normalisedeventtype": "course",
+        "source": "Maths &amp; Physics",
+        "ended": true
     }
 }}
- {{#events}}      
-<div id="{{id}}_{{timestart}}" class="item event-item calendar_event_{{normalisedeventtype}} {{eventpast}}">
-    <div
-        class="event clearfix"
-        data-eventtype-{{calendareventtype}}="1"
-        
-        data-region="event-item"
-    >
-       <div class="card-text content calendarwrapper" >
-            {{#coursename}}<span class="coursename">{{coursename}}</span><br/>{{/coursename}}
-            <span>{{#icon}}{{#pix}} {{key}}, {{component}}, {{alttext}} {{/pix}}{{/icon}}</span><a
-                data-type="event"
-                data-action="view-event"
-                data-event-id="{{id}}"
-                href="{{viewurl}}"
-                class="timetable-event"
-            >{{{name}}}</a><br/>
-            {{{formattedtime}}}
-    
+<div class="event-item calendar_event_{{normalisedeventtype}}{{#ended}} ended{{/ended}}">
+    {{#source}}<div class="source">{{{source}}}</div>{{/source}}
+    <div class="d-flex align-items-start">
+        {{#icon}}{{#pix}} {{key}}, {{component}}, {{alttext}} {{/pix}}{{/icon}}
+        <a href="{{viewurl}}" class="timetable-event" data-region="event-item" data-action="view-event" data-event-id="{{id}}">{{{name}}}</a>
     </div>
-    </div>
+    <div class="small">{{{formattedtime}}}</div>
 </div>
-{{/events}}
-{{^events}}
-    {{#str}}noupcomingevents, calendar{{/str}}
-{{/events}}

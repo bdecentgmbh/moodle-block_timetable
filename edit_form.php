@@ -15,55 +15,73 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editing Timeline block instances.
+ * Settings form of the Timetable block.
+ *
+ * @package    block_timetable
+ * @copyright  2021 bdecent gmbh <https://bdecent.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+use block_timetable\output\main;
+
+/**
+ * Settings form of the Timetable block.
  *
  * @package    block_timetable
  * @copyright  2021 bdecent gmbh <https://bdecent.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class block_timetable_edit_form extends block_edit_form {
-     /**
-      * Function that create a specific defination of form
-      * readable Object of mform
-      *
-      * @param object $mform
-      * @return object $mform
-      */
+    /**
+     * The block's settings.
+     *
+     * @param MoodleQuickForm $mform
+     */
     protected function specific_definition($mform) {
-        $mform->addElement(
-            'header',
-            'configheader',
-            get_string(
-                'blocksettings',
-                'core_block'
-            )
-        );
+        $mform->addElement('header', 'configheader', get_string('blocksettings', 'block'));
 
-        $options = [
-        'today' => get_string('today', 'block_timetable'),
-        'thisweek' => get_string('thisweek', 'block_timetable'),
-        'nextxday' => get_string('nextxday', 'block_timetable'),
-        ];
-        $mform->addElement('select', 'config_timetable', get_string('type', 'block_timetable'), $options);
-        $mform->addElement('header', '', 'Available View');
-        $mform->addElement('selectyesno', 'config_checkboxtoday', get_string('today', 'block_timetable'));
-        $mform->setDefault('config_checkboxtoday', !empty($config->checkboxtoday) ? 1 : 0);
-        $mform->addElement('selectyesno', 'config_checkboxthisweek', get_string('thisweek', 'block_timetable'));
-        $mform->setDefault('config_checkboxthisweek', !empty($config->checkboxthisweek) ? 1 : 0);
-        $mform->addElement('selectyesno', 'config_checkboxnextxday', get_string('nextxday', 'block_timetable'));
-        $mform->setDefault('config_checkboxtoday', !empty($config->checkboxtoday) ? 1 : 0);
-        $mform->addElement('text', 'config_limit', get_string('limit', 'block_timetable'), 'maxlength="100" size="10"');
-        $mform->setType('config_limit', PARAM_INT);
-        if (isset($this->block->config->limit)) {
-            $mform->setDefault('config_limit', $this->block->config->limit);
-        } else {
-            $mform->setDefault('config_limit', 5);
+        $views = [];
+        foreach (main::VIEWS as $view) {
+            $views[$view] = get_string($view, 'block_timetable');
         }
-        $options = [
-        'vertical' => get_string('vertical', 'block_timetable'),
-        'horizontal' => get_string('horizontal', 'block_timetable'),
-        ];
+        $mform->addElement('select', 'config_timetable', get_string('defaultview', 'block_timetable'), $views);
+        $mform->setDefault('config_timetable', 'today');
 
-        $mform->addElement('select', 'config_view', get_string('view', 'block_timetable'), $options);
+        $checkboxes = [];
+        foreach ($views as $view => $name) {
+            $checkboxes[] = $mform->createElement('advcheckbox', 'config_checkbox' . $view, '', $name);
+            $mform->setDefault('config_checkbox' . $view, 1);
+        }
+        $mform->addGroup($checkboxes, 'availableviews', get_string('availableviews', 'block_timetable'), ' ', false);
+        $mform->addHelpButton('availableviews', 'availableviews', 'block_timetable');
+
+        $mform->addElement('text', 'config_limit', get_string('limit', 'block_timetable'), ['size' => 3]);
+        $mform->setType('config_limit', PARAM_INT);
+        $mform->setDefault('config_limit', main::DEFAULT_LIMIT);
+        $mform->addHelpButton('config_limit', 'limit', 'block_timetable');
+
+        $mform->addElement('select', 'config_view', get_string('orientation', 'block_timetable'), [
+            'vertical' => get_string('vertical', 'block_timetable'),
+            'horizontal' => get_string('horizontal', 'block_timetable'),
+        ]);
+
+        if (class_exists(\tool_timetable\blocktimetable::class)) {
+            (new \tool_timetable\blocktimetable())->blocktimetable_form_fields($mform);
+        }
+    }
+
+    /**
+     * Keep the number of events per page within the limits.
+     *
+     * @param array $data
+     * @param array $files
+     * @return array Errors
+     */
+    public function validation($data, $files) {
+        $errors = parent::validation($data, $files);
+        if (isset($data['config_limit']) && ($data['config_limit'] < 1 || $data['config_limit'] > main::MAX_LIMIT)) {
+            $errors['config_limit'] = get_string('limitrange', 'block_timetable', main::MAX_LIMIT);
+        }
+        return $errors;
     }
 }

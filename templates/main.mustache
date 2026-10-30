@@ -15,56 +15,54 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @templateblock_timetable/main
+    @template block_timetable/main
 
-    The purpose of this template is to render the timetable block.
-
-    Classes required for JS:
-    * none
+    The Timetable block. block_timetable/main replaces the content for another view, day or page.
 
     Data attributes required for JS:
-    * none
+    * data-region="block_timetable", data-instanceid, data-contextid, data-courseid
 
     Example context (json):
     {
+        "instanceid": 4,
+        "contextid": 52,
+        "courseid": 1,
+        "defaulteventcontext": 1,
+        "view": "today",
+        "time": 1761688800,
+        "horizontal": false,
+        "interactive": true,
+        "showviews": true,
+        "views": [
+            {"view": "today", "name": "Today", "active": true},
+            {"view": "thisweek", "name": "This week", "active": false},
+            {"view": "nextxday", "name": "Upcoming", "active": false}
+        ],
+        "showdays": false,
+        "days": [],
+        "events": [
+            {
+                "id": 7,
+                "name": "Assignment 1 is due",
+                "formattedtime": "Today, 17:00",
+                "viewurl": "https://example.com/calendar/view.php?view=day&time=1761750000#event_7",
+                "normalisedeventtype": "course",
+                "source": "Maths &amp; Physics",
+                "ended": false
+            }
+        ],
+        "showpagination": false,
+        "previous": 0,
+        "next": 0
     }
 }}
-
-<div id="timetable-events{{instanceid}}" class="timetable {{blockview}}" data-template="block_timetable/event" >
-     {{> block_timetable/events}}        
+<div class="block-timetable" data-region="block_timetable" data-instanceid="{{instanceid}}" data-contextid="{{contextid}}" data-courseid="{{courseid}}">
+    {{> block_timetable/content }}
 </div>
+{{#interactive}}
 {{#js}}
-require(['jquery', 'core_calendar/calendar_view'], function($, CalendarView) {
-    CalendarView.init($("#inst{{instanceid}} .timetable"), 'upcoming');
-    $("body").on("click", ".timeblock{{instanceid}}", function() {
-        var url = $(this).data('url');
-        var mode = $(this).data('mode');
-        $.ajax({
-           url: url,
-        }).done(function(html) {
-            $("#timetable-events{{instanceid}}").html(html.output);
-            if (mode == "thisweek") {
-                $("#cal{{instanceid}}").show();
-            } else {
-               $("#cal{{instanceid}}").hide();
-            }
-        });
-    });
-    $("body").on("click", ".dateblock{{instanceid}}", function() {
-        $(".dateblock_day{{instanceid}}").removeClass('active');
-        $(this).parent("div").addClass('active');
-        var url = $(this).data('url');
-        var mode = $(this).data('mode');
-        $.ajax({
-            url: url,
-        }).done(function(html) {
-        $("#timetable-events{{instanceid}}").html(html.output);
-            if (mode == "thisweek") {
-                $("#cal{{instanceid}}").show();
-            } else {
-                $("#cal{{instanceid}}").hide();
-            }
-        });
-    });
+require(['block_timetable/main'], function(Main) {
+    Main.init({{instanceid}});
 });
 {{/js}}
+{{/interactive}}

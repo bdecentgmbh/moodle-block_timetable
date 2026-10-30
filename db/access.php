@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for block_timetable.
+ * Capabilities of the Timetable block.
  *
  * @package    block_timetable
  * @copyright  2021 bdecent gmbh <https://bdecent.de>

@@ -15,32 +15,34 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Timetable language settings
+ * Strings of the Timetable block.
  *
  * @package    block_timetable
  * @copyright  2021 bdecent gmbh <https://bdecent.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['adminview'] = 'Admin view';
-$string['courseevent'] = 'Course Event';
-$string['event'] = 'Event';
-$string['gotocalendar'] = 'Go to calendar...';
-$string['horizontal'] = 'horizontal';
-$string['limit'] = 'Limit of event';
-$string['next'] = 'Next event';
+defined('MOODLE_INTERNAL') || die();
+
+$string['availableviews'] = 'Views to switch between';
+$string['availableviews_help'] = 'Users can switch between these views in the block. The default view is always offered.';
+$string['days'] = 'Days of this week';
+$string['defaultview'] = 'Default view';
+$string['horizontal'] = 'Horizontal';
+$string['limit'] = 'Events per page';
+$string['limit_help'] = 'How many events the block shows at a time. When there are more, users can page through up to 200 events.';
+$string['limitrange'] = 'Enter a number from 1 to {$a}.';
+$string['next'] = 'Next events';
 $string['nextxday'] = 'Upcoming';
-$string['owncourses'] = 'Admin user sees own courses';
+$string['noevents'] = 'No events';
+$string['orientation'] = 'Orientation';
+$string['pagination'] = 'More events';
 $string['pluginname'] = 'Timetable';
-$string['previous'] = 'Previous event';
-$string['privacy:metadata'] = 'The Timetable block only displays existing timetable data.';
-$string['recentinterval'] = 'Interval';
-$string['second'] = 'Second';
+$string['previous'] = 'Previous events';
+$string['privacy:metadata'] = 'The Timetable block shows calendar events and stores no personal data.';
 $string['thisweek'] = 'This week';
-$string['time'] = 'Time';
-$string['timetable:addinstance'] = 'Add a new timetable block';
-$string['timetable:myaddinstance'] = 'Add a new timetable block to Dashboard';
+$string['timetable:addinstance'] = 'Add a new Timetable block';
+$string['timetable:myaddinstance'] = 'Add a new Timetable block to Dashboard';
 $string['today'] = 'Today';
-$string['type'] = 'Default view';
 $string['vertical'] = 'Vertical';
-$string['view'] = 'Select view';
+$string['views'] = 'Views';

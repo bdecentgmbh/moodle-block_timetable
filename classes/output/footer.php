@@ -22,15 +22,13 @@ use templatable;
 use stdClass;
 
 /**
- * Timetable
- *
- * Footer renderable.
+ * The footer of a Timetable block: links to the calendar and to a new event.
  *
  * @package    block_timetable
  * @copyright  2021 bdecent gmbh <https://bdecent.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class footer implements templatable, renderable {
+class footer implements renderable, templatable {
     /**
      * @var int The course id.
      */
@@ -52,15 +50,15 @@ class footer implements templatable, renderable {
      * @return array
      */
     public function export_for_template(renderer_base $output) {
-        global $PAGE;
-
         $footer = new stdClass();
         $footer->manageentries = false;
         $context = \context_course::instance($this->courseid);
-        $footer->calendarurl = new \moodle_url('/calendar/view.php', ['view' => 'upcoming', 'course' => $this->courseid]);
+        $footer->calendarurl = (new \moodle_url('/calendar/view.php', ['view' => 'upcoming', 'course' => $this->courseid]))
+            ->out(false);
 
         if (has_any_capability(['moodle/calendar:manageentries', 'moodle/calendar:manageownentries'], $context)) {
-            $footer->addeventurl = new \moodle_url('/calendar/event.php', ['action' => 'new', 'course' => $this->courseid]);
+            $footer->addeventurl = (new \moodle_url('/calendar/event.php', ['action' => 'new', 'course' => $this->courseid]))
+                ->out(false);
             $footer->manageentries = true;
         }
 
